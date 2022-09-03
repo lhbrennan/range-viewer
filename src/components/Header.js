@@ -7,9 +7,9 @@ const Header = (props) => {
     <section
       className={css({
         ...theme.typography.HeadingLarge,
-        fontFamily: "Bungee Inline, cursive",
-        display: "flex",
-        justifyContent: "center",
+        fontFamily: 'Bungee Inline, cursive',
+        display: 'flex',
+        justifyContent: 'center',
         paddingTop: theme.sizing.scale200,
         paddingBottom: theme.sizing.scale200,
         marginBottom: theme.sizing.scale700,

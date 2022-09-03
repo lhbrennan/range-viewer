@@ -29,10 +29,7 @@ const CruncherSection = (props) => {
     <section>
       <div>
         <div>{"Villian's Range"}</div>
-        <Input
-          value={villianRange}
-          onChange={(e) => setVillianRange(e.target.value)}
-        />
+        <Input value={villianRange} onChange={(e) => setVillianRange(e.target.value)} />
       </div>
 
       <div>

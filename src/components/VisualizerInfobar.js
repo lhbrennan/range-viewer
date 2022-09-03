@@ -1,11 +1,7 @@
 import React from 'react';
 import { styled } from 'styletron-react';
 
-import {
-  roundToPrecision,
-  calcNumHandCombos,
-  totalPossibleCombos,
-} from '../utils';
+import { roundToPrecision, calcNumHandCombos, totalPossibleCombos } from '../utils';
 
 const Section = styled('section', {
   display: 'flex',
@@ -32,15 +28,9 @@ const calcTotalNumSelectionCombos = (handStatusMap) =>
 export const VisualizerInfobar = ({ handStatusMap }) => {
   const [yesCombos, maybeCombos] = calcTotalNumSelectionCombos(handStatusMap);
 
-  const yesComboPercent = roundToPrecision(
-    (yesCombos / totalPossibleCombos) * 100,
-    0.01
-  );
+  const yesComboPercent = roundToPrecision((yesCombos / totalPossibleCombos) * 100, 0.01);
 
-  const maybeComboPercent = roundToPrecision(
-    (maybeCombos / totalPossibleCombos) * 100,
-    0.01
-  );
+  const maybeComboPercent = roundToPrecision((maybeCombos / totalPossibleCombos) * 100, 0.01);
 
   return (
     <Section>

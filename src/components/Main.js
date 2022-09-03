@@ -1,25 +1,19 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect } from 'react';
 
-import {
-  hands,
-  pairs,
-  broadway,
-  suitedConnectors,
-  defaultHandStatusMap,
-} from "../constants/hands";
-import { VisualizerGrid } from "./VisualizerGrid";
-import { VisualizerToolbar } from "./VisualizerToolbar";
-import { VisualizerInfobar } from "./VisualizerInfobar";
-import { Header } from "./Header";
-import { RangeSlider } from "./RangeSlider";
+import { hands, pairs, broadway, suitedConnectors, defaultHandStatusMap } from '../constants/hands';
+import { VisualizerGrid } from './VisualizerGrid';
+import { VisualizerToolbar } from './VisualizerToolbar';
+import { VisualizerInfobar } from './VisualizerInfobar';
+import { Header } from './Header';
+import { RangeSlider } from './RangeSlider';
 // import { CruncherSection } from "./CruncherSection";
-import { useStyletron } from "baseui";
+import { useStyletron } from 'baseui';
 
 /****** UTILS *****/
 const setQueryStringWithoutPageReload = (queryString) => {
   const { protocol, host, pathname } = window.location;
   const newUrl = `${protocol}//${host}${pathname}?${queryString}`;
-  window.history.pushState({ path: newUrl }, "", newUrl);
+  window.history.pushState({ path: newUrl }, '', newUrl);
 };
 
 const getQueryStringValue = (key, searchParams) => searchParams.getAll(key);
@@ -37,24 +31,24 @@ const createHandStatusMap = (hands, status) => {
 /***** COMPONENT *****/
 export const Main = () => {
   const searchParams = new URLSearchParams(window.location.search);
-  const yesHands = getQueryStringValue("yes", searchParams);
-  const maybeHands = getQueryStringValue("maybe", searchParams);
+  const yesHands = getQueryStringValue('yes', searchParams);
+  const maybeHands = getQueryStringValue('maybe', searchParams);
 
   const [handStatusMap, setHandStatusMap] = useState({
     ...defaultHandStatusMap,
-    ...createHandStatusMap(yesHands, "YES"),
-    ...createHandStatusMap(maybeHands, "MAYBE"),
+    ...createHandStatusMap(yesHands, 'YES'),
+    ...createHandStatusMap(maybeHands, 'MAYBE'),
   });
 
   useEffect(() => {
-    searchParams.delete("yes");
-    searchParams.delete("maybe");
+    searchParams.delete('yes');
+    searchParams.delete('maybe');
     Object.entries(handStatusMap).forEach((hand) => {
       const [label, status] = hand;
-      if (status === "YES") {
-        searchParams.append("yes", label);
-      } else if (status === "MAYBE") {
-        searchParams.append("maybe", label);
+      if (status === 'YES') {
+        searchParams.append('yes', label);
+      } else if (status === 'MAYBE') {
+        searchParams.append('maybe', label);
       }
     });
 
@@ -63,8 +57,7 @@ export const Main = () => {
 
   const handleStatusChange = (hand) => {
     const currStatus = handStatusMap[hand];
-    const nextStatus =
-      currStatus === "NO" ? "YES" : currStatus === "MAYBE" ? "NO" : "MAYBE";
+    const nextStatus = currStatus === 'NO' ? 'YES' : currStatus === 'MAYBE' ? 'NO' : 'MAYBE';
 
     setHandStatusMap({
       ...handStatusMap,
@@ -75,33 +68,33 @@ export const Main = () => {
   const handleSelectAllPairs = () => {
     setHandStatusMap({
       ...handStatusMap,
-      ...createHandStatusMap(pairs, "YES"),
+      ...createHandStatusMap(pairs, 'YES'),
     });
   };
 
   const handleSelectAllBroadway = () => {
     setHandStatusMap({
       ...handStatusMap,
-      ...createHandStatusMap(broadway, "YES"),
+      ...createHandStatusMap(broadway, 'YES'),
     });
   };
 
   const handleSelectAllSuitedConnectors = () => {
     setHandStatusMap({
       ...handStatusMap,
-      ...createHandStatusMap(suitedConnectors, "YES"),
+      ...createHandStatusMap(suitedConnectors, 'YES'),
     });
   };
 
   const handleSelectAllSuitedAx = () => {
     setHandStatusMap({
       ...handStatusMap,
-      ...createHandStatusMap(hands[0], "YES"),
+      ...createHandStatusMap(hands[0], 'YES'),
     });
   };
 
   const handleSelectAllHands = () => {
-    setHandStatusMap(createHandStatusMap(hands, "YES"));
+    setHandStatusMap(createHandStatusMap(hands, 'YES'));
   };
 
   const handleResetAllHands = () => {
@@ -111,22 +104,22 @@ export const Main = () => {
   const handleSetRange = (range) => {
     setHandStatusMap({
       ...handStatusMap,
-      ...createHandStatusMap(range, "YES"),
+      ...createHandStatusMap(range, 'YES'),
     });
   };
 
   const [css] = useStyletron();
 
   return (
-    <main style={{ height: "100%" }}>
+    <main style={{ height: '100%' }}>
       <Header />
       <div>
         <div
           className={css({
-            display: "grid",
-            gridTemplateColumns: "1fr auto 1fr",
-            alignItems: "start",
-            justifyItems: "end",
+            display: 'grid',
+            gridTemplateColumns: '1fr auto 1fr',
+            alignItems: 'start',
+            justifyItems: 'end',
           })}
         >
           <VisualizerToolbar

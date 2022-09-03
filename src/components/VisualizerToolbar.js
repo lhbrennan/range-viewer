@@ -1,6 +1,6 @@
-import React from "react";
-import { Button, KIND, SIZE } from "baseui/button";
-import { useStyletron } from "baseui";
+import React from 'react';
+import { Button, KIND, SIZE } from 'baseui/button';
+import { useStyletron } from 'baseui';
 
 const RangeButton = ({ children, ...rest }) => {
   const [, theme] = useStyletron();
@@ -28,10 +28,10 @@ export const VisualizerToolbar = ({
   return (
     <div
       className={css({
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "space-between",
-        maxWidth: "300px",
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'space-between',
+        maxWidth: '300px',
         marginRight: theme.sizing.scale900,
       })}
     >
@@ -41,9 +41,7 @@ export const VisualizerToolbar = ({
 
       <RangeButton onClick={selectAllPairs}>All Pairs</RangeButton>
       <RangeButton onClick={selectAllBroadway}>All Broadway</RangeButton>
-      <RangeButton onClick={selectAllSuitedConnectors}>
-        All Suited Connectors
-      </RangeButton>
+      <RangeButton onClick={selectAllSuitedConnectors}>All Suited Connectors</RangeButton>
       <RangeButton onClick={selectAllSuitedAx}>All Suited AX</RangeButton>
       <RangeButton onClick={selectAllHands}>All Hands</RangeButton>
     </div>
