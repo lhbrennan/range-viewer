@@ -2,12 +2,13 @@ import React from 'react';
 import { styled } from 'baseui';
 
 import { VisualizerCell } from './VisualizerCell';
+import { CENTER_WIDTH } from '../constants/layout';
 
 const Outer = styled('div', {
   maxWidth: '650px',
   margin: '0px auto',
-  height: '500px',
-  width: '500px',
+  height: CENTER_WIDTH,
+  width: CENTER_WIDTH,
 });
 
 const Middle = styled('div', {

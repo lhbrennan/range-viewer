@@ -135,9 +135,9 @@ export const Main = () => {
             handStatusMap={handStatusMap}
             handleStatusChange={handleStatusChange}
           />
+          <VisualizerInfobar handStatusMap={handStatusMap} />
         </div>
         <RangeSlider setRange={handleSetRange} />
-        <VisualizerInfobar handStatusMap={handStatusMap} />
       </div>
       {/* <CruncherSection /> */}
     </main>
