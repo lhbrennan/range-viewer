@@ -1,8 +1,8 @@
 import React from 'react';
 import { styled } from 'baseui';
 import { colors } from 'baseui/tokens';
-
 import { determineHandType, HAND_TYPES } from '../utils';
+import { STATUS } from '../constants/statuses';
 
 const Button = styled('button', ({ $theme, $handType, $status }) => {
   const BACKGROUND_COLOR = {
@@ -22,13 +22,13 @@ const Button = styled('button', ({ $theme, $handType, $status }) => {
     borderRadius: '8px',
 
     color:
-      $status === 'YES' || $status === 'MAYBE'
+      $status === STATUS.yes || $status === STATUS.maybe
         ? $theme.colors.contentInversePrimary
         : $theme.colors.contentPrimary,
     backgroundColor:
-      $status === 'YES'
+      $status === STATUS.yes
         ? BACKGROUND_COLOR.yes
-        : $status === 'MAYBE'
+        : $status === STATUS.maybe
         ? BACKGROUND_COLOR.maybe
         : $handType === HAND_TYPES.PAIR
         ? BACKGROUND_COLOR.pair
@@ -36,9 +36,9 @@ const Button = styled('button', ({ $theme, $handType, $status }) => {
         ? BACKGROUND_COLOR.suited
         : BACKGROUND_COLOR.unsuited,
     border:
-      $status === 'YES'
+      $status === STATUS.yes
         ? `1px solid ${BACKGROUND_COLOR.yes}`
-        : $status === 'MAYBE'
+        : $status === STATUS.maybe
         ? `1px solid ${BACKGROUND_COLOR.maybe}`
         : `1px solid ${$theme.colors.borderOpaque}`,
   };

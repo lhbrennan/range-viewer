@@ -2,14 +2,15 @@ import React from 'react';
 import { useStyletron } from 'baseui';
 import { StatefulTooltip } from 'baseui/tooltip';
 import { roundToPrecision, calcNumHandCombos, totalPossibleCombos } from '../utils';
+import { STATUS } from '../constants/statuses';
 
 const calcTotalNumSelectionCombos = (handStatusMap) =>
   Object.entries(handStatusMap).reduce(
     (count, hand) => {
       const [label, status] = hand;
-      if (status === 'YES') {
+      if (status === STATUS.yes) {
         count[0] = count[0] + calcNumHandCombos(label);
-      } else if (status === 'MAYBE') {
+      } else if (status === STATUS.maybe) {
         count[1] = count[1] + calcNumHandCombos(label);
       }
       return count;

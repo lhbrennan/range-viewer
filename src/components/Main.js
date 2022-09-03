@@ -9,6 +9,7 @@ import { RangeSlider } from './RangeSlider';
 // import { CruncherSection } from "./CruncherSection";
 import { useStyletron } from 'baseui';
 import { LAYOUT_GRID_GUTTER } from '../constants/layout';
+import { STATUS } from '../constants/statuses';
 
 /****** UTILS *****/
 const setQueryStringWithoutPageReload = (queryString) => {
@@ -37,8 +38,8 @@ export const Main = () => {
 
   const [handStatusMap, setHandStatusMap] = useState({
     ...defaultHandStatusMap,
-    ...createHandStatusMap(yesHands, 'YES'),
-    ...createHandStatusMap(maybeHands, 'MAYBE'),
+    ...createHandStatusMap(yesHands, STATUS.yes),
+    ...createHandStatusMap(maybeHands, STATUS.maybe),
   });
 
   useEffect(() => {
@@ -46,9 +47,9 @@ export const Main = () => {
     searchParams.delete('maybe');
     Object.entries(handStatusMap).forEach((hand) => {
       const [label, status] = hand;
-      if (status === 'YES') {
+      if (status === STATUS.yes) {
         searchParams.append('yes', label);
-      } else if (status === 'MAYBE') {
+      } else if (status === STATUS.maybe) {
         searchParams.append('maybe', label);
       }
     });
@@ -58,7 +59,12 @@ export const Main = () => {
 
   const handleStatusChange = (hand) => {
     const currStatus = handStatusMap[hand];
-    const nextStatus = currStatus === 'NO' ? 'YES' : currStatus === 'MAYBE' ? 'NO' : 'MAYBE';
+    const nextStatus =
+      currStatus === STATUS.no
+        ? STATUS.yes
+        : currStatus === STATUS.maybe
+        ? STATUS.no
+        : STATUS.maybe;
 
     setHandStatusMap({
       ...handStatusMap,
@@ -69,33 +75,33 @@ export const Main = () => {
   const handleSelectAllPairs = () => {
     setHandStatusMap({
       ...handStatusMap,
-      ...createHandStatusMap(pairs, 'YES'),
+      ...createHandStatusMap(pairs, STATUS.yes),
     });
   };
 
   const handleSelectAllBroadway = () => {
     setHandStatusMap({
       ...handStatusMap,
-      ...createHandStatusMap(broadway, 'YES'),
+      ...createHandStatusMap(broadway, STATUS.yes),
     });
   };
 
   const handleSelectAllSuitedConnectors = () => {
     setHandStatusMap({
       ...handStatusMap,
-      ...createHandStatusMap(suitedConnectors, 'YES'),
+      ...createHandStatusMap(suitedConnectors, STATUS.yes),
     });
   };
 
   const handleSelectAllSuitedAx = () => {
     setHandStatusMap({
       ...handStatusMap,
-      ...createHandStatusMap(hands[0], 'YES'),
+      ...createHandStatusMap(hands[0], STATUS.yes),
     });
   };
 
   const handleSelectAllHands = () => {
-    setHandStatusMap(createHandStatusMap(hands, 'YES'));
+    setHandStatusMap(createHandStatusMap(hands, STATUS.yes));
   };
 
   const handleResetAllHands = () => {
@@ -105,7 +111,7 @@ export const Main = () => {
   const handleSetRange = (range) => {
     setHandStatusMap({
       ...handStatusMap,
-      ...createHandStatusMap(range, 'YES'),
+      ...createHandStatusMap(range, STATUS.yes),
     });
   };
 
