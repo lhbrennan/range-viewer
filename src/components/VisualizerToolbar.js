@@ -1,6 +1,7 @@
 import React from 'react';
 import { Button, KIND, SIZE } from 'baseui/button';
 import { useStyletron } from 'baseui';
+import { BUTTON_WIDTH, TOOLBAR_RIGHT_MARGIN } from '../constants/layout';
 
 const RangeButton = ({ children, ...rest }) => {
   const [, theme] = useStyletron();
@@ -8,7 +9,7 @@ const RangeButton = ({ children, ...rest }) => {
     <Button
       kind={KIND.primary}
       size={SIZE.compact}
-      overrides={{ Root: { style: { marginBottom: theme.sizing.scale300 } } }}
+      overrides={{ Root: { style: { marginBottom: theme.sizing.scale300, width: BUTTON_WIDTH } } }}
       {...rest}
     >
       {children}
@@ -24,26 +25,34 @@ export const VisualizerToolbar = ({
   selectAllHands,
   resetAllHands,
 }) => {
-  const [css, theme] = useStyletron();
+  const [css] = useStyletron();
   return (
     <div
       className={css({
         display: 'flex',
         flexDirection: 'column',
-        justifyContent: 'space-between',
-        maxWidth: '300px',
-        marginRight: theme.sizing.scale900,
+        height: '100%',
+        marginRight: TOOLBAR_RIGHT_MARGIN,
       })}
     >
       <RangeButton onClick={resetAllHands} size={SIZE.large}>
         Reset
       </RangeButton>
 
-      <RangeButton onClick={selectAllPairs}>All Pairs</RangeButton>
-      <RangeButton onClick={selectAllBroadway}>All Broadway</RangeButton>
-      <RangeButton onClick={selectAllSuitedConnectors}>All Suited Connectors</RangeButton>
-      <RangeButton onClick={selectAllSuitedAx}>All Suited AX</RangeButton>
-      <RangeButton onClick={selectAllHands}>All Hands</RangeButton>
+      <div
+        className={css({
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center',
+          flexGrow: 1,
+        })}
+      >
+        <RangeButton onClick={selectAllPairs}>All Pairs</RangeButton>
+        <RangeButton onClick={selectAllBroadway}>All Broadway</RangeButton>
+        <RangeButton onClick={selectAllSuitedConnectors}>All Suited Connectors</RangeButton>
+        <RangeButton onClick={selectAllSuitedAx}>All Suited AX</RangeButton>
+        <RangeButton onClick={selectAllHands}>All Hands</RangeButton>
+      </div>
     </div>
   );
 };
