@@ -14,13 +14,14 @@ const Button = styled('button', ({ $theme, $handType, $status }) => {
   };
 
   return {
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
+    ...$theme.typography.LabelSmall,
+    fontFamily: 'inherit',
     cursor: 'pointer',
     padding: '2px',
     borderRadius: '8px',
-
+    ':hover': {
+      border: `2px solid ${$theme.colors.black}`,
+    },
     color:
       $status === STATUS.yes || $status === STATUS.maybe
         ? $theme.colors.contentInversePrimary
