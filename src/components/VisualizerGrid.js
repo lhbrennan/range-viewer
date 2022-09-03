@@ -1,40 +1,40 @@
-import React from 'react';
-import { styled } from 'styletron-react';
+import React from "react";
+import { styled } from "styletron-react";
 
-import { VisualizerCell } from './VisualizerCell';
+import { VisualizerCell } from "./VisualizerCell";
 
-const Outer = styled('section', {
-  maxWidth: '650px',
-  margin: '0px auto',
+const Outer = styled("div", {
+  maxWidth: "650px",
+  margin: "0px auto",
+  height: "500px",
+  width: "500px",
 });
 
-const Middle = styled('div', {
-  paddingTop: '100%',
-  overflow: 'hidden',
-  position: 'relative',
-  maxHeight: '700px',
-  maxWidth: '700px',
+const Middle = styled("div", {
+  paddingTop: "100%",
+  // overflow: 'hidden',
+  position: "relative",
 });
 
-const Inner = styled('div', {
-  maxHeight: '700px',
-  maxWidth: '700px',
-  display: 'grid',
-  gridTemplateColumns: 'repeat(13, minmax(30px, 1fr))',
-  gridTemplateRows: 'repeat(13, minmax(30px, 1fr))',
+const Inner = styled("div", {
+  maxHeight: "700px",
+  maxWidth: "700px",
+  display: "grid",
+  gridTemplateColumns: "repeat(13, minmax(30px, 1fr))",
+  gridTemplateRows: "repeat(13, minmax(30px, 1fr))",
 
-  fontFamily: 'PT Sans, sans-serif',
+  fontFamily: "PT Sans, sans-serif",
 
-  gridColumnGap: '4px',
-  gridRowGap: '4px',
+  gridColumnGap: "4px",
+  gridRowGap: "4px",
 
-  borderRadius: '8px',
+  borderRadius: "8px",
 
-  position: 'absolute',
+  position: "absolute",
   top: 0,
   left: 0,
-  width: '100%',
-  height: '100%',
+  width: "100%",
+  height: "100%",
 });
 
 export const VisualizerGrid = ({

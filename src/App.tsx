@@ -6,7 +6,7 @@ import { Provider as StyletronProvider } from "styletron-react";
 import { BaseProvider } from "baseui";
 import { pokerTheme } from "./theme";
 
-import { DataManager } from "./components/DataManager";
+import { Main } from "./components/Main";
 
 const engine = new Styletron();
 
@@ -15,7 +15,7 @@ function App() {
     <div className="App">
       <StyletronProvider value={engine}>
         <BaseProvider theme={pokerTheme}>
-          <DataManager />
+          <Main />
         </BaseProvider>
       </StyletronProvider>
     </div>

@@ -1,14 +1,20 @@
-import React from 'react';
-import { Button, KIND, SIZE } from 'baseui/button';
-import { styled } from 'styletron-react';
+import React from "react";
+import { Button, KIND, SIZE } from "baseui/button";
+import { useStyletron } from "baseui";
 
-const Section = styled('section', {
-  display: 'flex',
-  flexFlow: 'row wrap',
-  justifyContent: 'space-between',
-  maxWidth: '700px',
-  margin: '0px auto 20px auto',
-});
+const RangeButton = ({ children, ...rest }) => {
+  const [, theme] = useStyletron();
+  return (
+    <Button
+      kind={KIND.primary}
+      size={SIZE.compact}
+      overrides={{ Root: { style: { marginBottom: theme.sizing.scale300 } } }}
+      {...rest}
+    >
+      {children}
+    </Button>
+  );
+};
 
 export const VisualizerToolbar = ({
   selectAllPairs,
@@ -17,29 +23,29 @@ export const VisualizerToolbar = ({
   selectAllSuitedAx,
   selectAllHands,
   resetAllHands,
-}) => (
-  <Section>
-    <Button onClick={selectAllPairs} kind={KIND.primary} size={SIZE.compact}>
-      All Pairs
-    </Button>
-    <Button onClick={selectAllBroadway} kind={KIND.primary} size={SIZE.compact}>
-      All Broadway
-    </Button>
-    <Button
-      onClick={selectAllSuitedConnectors}
-      kind={KIND.primary}
-      size={SIZE.compact}
+}) => {
+  const [css, theme] = useStyletron();
+  return (
+    <div
+      className={css({
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "space-between",
+        maxWidth: "300px",
+        marginRight: theme.sizing.scale900,
+      })}
     >
-      All Suited Connectors
-    </Button>
-    <Button onClick={selectAllSuitedAx} kind={KIND.primary} size={SIZE.compact}>
-      All Suited AX
-    </Button>
-    <Button onClick={selectAllHands} kind={KIND.primary} size={SIZE.compact}>
-      All Hands
-    </Button>
-    <Button onClick={resetAllHands} kind={KIND.primary} size={SIZE.compact}>
-      Reset
-    </Button>
-  </Section>
-);
+      <RangeButton onClick={resetAllHands} size={SIZE.large}>
+        Reset
+      </RangeButton>
+
+      <RangeButton onClick={selectAllPairs}>All Pairs</RangeButton>
+      <RangeButton onClick={selectAllBroadway}>All Broadway</RangeButton>
+      <RangeButton onClick={selectAllSuitedConnectors}>
+        All Suited Connectors
+      </RangeButton>
+      <RangeButton onClick={selectAllSuitedAx}>All Suited AX</RangeButton>
+      <RangeButton onClick={selectAllHands}>All Hands</RangeButton>
+    </div>
+  );
+};
