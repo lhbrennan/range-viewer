@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react';
+import { useStyletron } from 'baseui';
 
-import { HANDS, DEFAULT_HAND_STATUS_MAP } from '../constants/hands';
 import { VisualizerGrid } from './VisualizerGrid';
 import { VisualizerToolbar } from './VisualizerToolbar';
 import { VisualizerInfobar } from './VisualizerInfobar';
 import { Header } from './Header';
 import { RangeSlider } from './RangeSlider';
-import { useStyletron } from 'baseui';
-import { LAYOUT_GRID_GUTTER } from '../constants/layout';
 import { STATUS } from '../constants/statuses';
+import { LAYOUT_GRID_GUTTER } from '../constants/layout';
+import { HANDS, DEFAULT_HAND_STATUS_MAP } from '../constants/hands';
 import { createHandStatusMap } from './utils';
 
 /****** UTILS *****/

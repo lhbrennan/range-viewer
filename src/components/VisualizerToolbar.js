@@ -1,6 +1,7 @@
 import React from 'react';
 import { Button, KIND, SIZE } from 'baseui/button';
 import { useStyletron } from 'baseui';
+
 import { BUTTON_WIDTH } from '../constants/layout';
 import {
   HANDS,
