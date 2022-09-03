@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-import { hands, pairs, broadway, suitedConnectors, defaultHandStatusMap } from '../constants/hands';
+import { HANDS, PAIRS, BROADWAY, SUITED_CONNECTORS, DEFAULT_HAND_STATUS_MAP } from '../constants/hands';
 import { VisualizerGrid } from './VisualizerGrid';
 import { VisualizerToolbar } from './VisualizerToolbar';
 import { VisualizerInfobar } from './VisualizerInfobar';
@@ -37,7 +37,7 @@ export const Main = () => {
   const maybeHands = getQueryStringValue('maybe', searchParams);
 
   const [handStatusMap, setHandStatusMap] = useState({
-    ...defaultHandStatusMap,
+    ...DEFAULT_HAND_STATUS_MAP,
     ...createHandStatusMap(yesHands, STATUS.yes),
     ...createHandStatusMap(maybeHands, STATUS.maybe),
   });
@@ -75,37 +75,37 @@ export const Main = () => {
   const handleSelectAllPairs = () => {
     setHandStatusMap({
       ...handStatusMap,
-      ...createHandStatusMap(pairs, STATUS.yes),
+      ...createHandStatusMap(PAIRS, STATUS.yes),
     });
   };
 
   const handleSelectAllBroadway = () => {
     setHandStatusMap({
       ...handStatusMap,
-      ...createHandStatusMap(broadway, STATUS.yes),
+      ...createHandStatusMap(BROADWAY, STATUS.yes),
     });
   };
 
   const handleSelectAllSuitedConnectors = () => {
     setHandStatusMap({
       ...handStatusMap,
-      ...createHandStatusMap(suitedConnectors, STATUS.yes),
+      ...createHandStatusMap(SUITED_CONNECTORS, STATUS.yes),
     });
   };
 
   const handleSelectAllSuitedAx = () => {
     setHandStatusMap({
       ...handStatusMap,
-      ...createHandStatusMap(hands.slice(0, 13), STATUS.yes),
+      ...createHandStatusMap(HANDS.slice(0, 13), STATUS.yes),
     });
   };
 
   const handleSelectAllHands = () => {
-    setHandStatusMap(createHandStatusMap(hands, STATUS.yes));
+    setHandStatusMap(createHandStatusMap(HANDS, STATUS.yes));
   };
 
   const handleResetAllHands = () => {
-    setHandStatusMap(defaultHandStatusMap);
+    setHandStatusMap(DEFAULT_HAND_STATUS_MAP);
   };
 
   const handleSetRange = (range) => {
@@ -139,7 +139,7 @@ export const Main = () => {
             resetAllHands={handleResetAllHands}
           />
           <VisualizerGrid
-            hands={hands}
+            hands={HANDS}
             handStatusMap={handStatusMap}
             handleStatusChange={handleStatusChange}
           />

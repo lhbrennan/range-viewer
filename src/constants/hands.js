@@ -1,7 +1,7 @@
 import { STATUS } from '../constants/statuses';
 
 // prettier-ignore
-export const hands = [
+export const HANDS = [
   'AA', 'AKs', 'AQs', 'AJs', 'ATs', 'A9s', 'A8s', 'A7s', 'A6s', 'A5s','A4s', 'A3s', 'A2s',
   'AK', 'KK', 'KQs', 'KJs', 'KTs', 'K9s', 'K8s', 'K7s', 'K6s', 'K5s','K4s', 'K3s', 'K2s',
   'AQ', 'KQ','QQ', 'QJs', 'QTs', 'Q9s', 'Q8s', 'Q7s', 'Q6s', 'Q5s','Q4s', 'Q3s', 'Q2s',
@@ -17,7 +17,7 @@ export const hands = [
   'A2', 'K2','Q2', 'J2', 'T2', '92', '82', '72', '62', '52','42', '32', '22',
 ];
 
-export const pairs = [
+export const PAIRS = [
   'AA',
   'KK',
   'QQ',
@@ -33,7 +33,7 @@ export const pairs = [
   22,
 ];
 
-export const suitedConnectors = [
+export const SUITED_CONNECTORS = [
   'AKs',
   'KQs',
   'QJs',
@@ -48,7 +48,7 @@ export const suitedConnectors = [
   '32s',
 ];
 
-export const broadway = [
+export const BROADWAY = [
   'AA',
   'AKs',
   'AQs',
@@ -76,7 +76,7 @@ export const broadway = [
   'TT',
 ];
 
-export const defaultHandStatusMap = {
+export const DEFAULT_HAND_STATUS_MAP = {
   AA: STATUS.no,
   AKs: STATUS.no,
   AQs: STATUS.no,
