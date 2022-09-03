@@ -1,3 +1,8 @@
+* {
+  box-sizing: border-box;
+}
+
+/* Everything below is from CRA template */
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
