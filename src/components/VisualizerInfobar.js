@@ -1,5 +1,5 @@
 import React from 'react';
-import { styled } from 'styletron-react';
+import { styled } from 'baseui';
 
 import { roundToPrecision, calcNumHandCombos, totalPossibleCombos } from '../utils';
 

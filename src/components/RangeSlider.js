@@ -1,7 +1,7 @@
 import React from 'react';
 import { Slider } from 'baseui/slider';
 import { Button, SIZE, KIND } from 'baseui/button';
-import { styled } from 'styletron-react';
+import { styled } from 'baseui';
 
 import { calcNumHandCombos, totalPossibleCombos } from '../utils';
 import { sixMaxRankings } from '../constants/startingHandRankings';
