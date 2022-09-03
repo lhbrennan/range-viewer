@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from 'react';
 
-import { HANDS, PAIRS, BROADWAY, SUITED_CONNECTORS, DEFAULT_HAND_STATUS_MAP } from '../constants/hands';
+import { HANDS, DEFAULT_HAND_STATUS_MAP } from '../constants/hands';
 import { VisualizerGrid } from './VisualizerGrid';
 import { VisualizerToolbar } from './VisualizerToolbar';
 import { VisualizerInfobar } from './VisualizerInfobar';
 import { Header } from './Header';
 import { RangeSlider } from './RangeSlider';
-// import { CruncherSection } from "./CruncherSection";
 import { useStyletron } from 'baseui';
 import { LAYOUT_GRID_GUTTER } from '../constants/layout';
 import { STATUS } from '../constants/statuses';
+import { createHandStatusMap } from './utils';
 
 /****** UTILS *****/
 const setQueryStringWithoutPageReload = (queryString) => {
@@ -20,18 +20,10 @@ const setQueryStringWithoutPageReload = (queryString) => {
 
 const getQueryStringValue = (key, searchParams) => searchParams.getAll(key);
 
-const createHandStatusMap = (hands, status) => {
-  if (!hands) {
-    return {};
-  }
-  return hands.reduce((obj, pair) => {
-    obj[pair] = status;
-    return obj;
-  }, {});
-};
-
 /***** COMPONENT *****/
 export const Main = () => {
+  const [css] = useStyletron();
+
   const searchParams = new URLSearchParams(window.location.search);
   const yesHands = getQueryStringValue('yes', searchParams);
   const maybeHands = getQueryStringValue('maybe', searchParams);
@@ -41,6 +33,8 @@ export const Main = () => {
     ...createHandStatusMap(yesHands, STATUS.yes),
     ...createHandStatusMap(maybeHands, STATUS.maybe),
   });
+
+  const [pseudoSelectionMap, setPseudoSelectionMap] = useState({});
 
   useEffect(() => {
     searchParams.delete('yes');
@@ -57,6 +51,7 @@ export const Main = () => {
     setQueryStringWithoutPageReload(searchParams.toString());
   }, [handStatusMap, searchParams]);
 
+  /*** handlers ***/
   const handleStatusChange = (hand) => {
     const currStatus = handStatusMap[hand];
     const nextStatus =
@@ -71,51 +66,19 @@ export const Main = () => {
       [hand]: nextStatus,
     });
   };
-
-  const handleSelectAllPairs = () => {
-    setHandStatusMap({
-      ...handStatusMap,
-      ...createHandStatusMap(PAIRS, STATUS.yes),
-    });
-  };
-
-  const handleSelectAllBroadway = () => {
-    setHandStatusMap({
-      ...handStatusMap,
-      ...createHandStatusMap(BROADWAY, STATUS.yes),
-    });
-  };
-
-  const handleSelectAllSuitedConnectors = () => {
-    setHandStatusMap({
-      ...handStatusMap,
-      ...createHandStatusMap(SUITED_CONNECTORS, STATUS.yes),
-    });
-  };
-
-  const handleSelectAllSuitedAx = () => {
-    setHandStatusMap({
-      ...handStatusMap,
-      ...createHandStatusMap(HANDS.slice(0, 13), STATUS.yes),
-    });
-  };
-
-  const handleSelectAllHands = () => {
-    setHandStatusMap(createHandStatusMap(HANDS, STATUS.yes));
-  };
-
-  const handleResetAllHands = () => {
-    setHandStatusMap(DEFAULT_HAND_STATUS_MAP);
-  };
-
   const handleSetRange = (range) => {
     setHandStatusMap({
       ...handStatusMap,
       ...createHandStatusMap(range, STATUS.yes),
     });
   };
-
-  const [css] = useStyletron();
+  const handlePseudoSelection = (selection) =>
+    setPseudoSelectionMap({
+      ...createHandStatusMap(selection, true),
+    });
+  const handleResetPseudoSelection = () => {
+    setPseudoSelectionMap({});
+  };
 
   return (
     <main style={{ height: '100%' }}>
@@ -131,23 +94,25 @@ export const Main = () => {
           })}
         >
           <VisualizerToolbar
-            selectAllPairs={handleSelectAllPairs}
-            selectAllBroadway={handleSelectAllBroadway}
-            selectAllSuitedConnectors={handleSelectAllSuitedConnectors}
-            selectAllSuitedAx={handleSelectAllSuitedAx}
-            selectAllHands={handleSelectAllHands}
-            resetAllHands={handleResetAllHands}
+            setHandStatusMap={setHandStatusMap}
+            handStatusMap={handStatusMap}
+            setPseudoSelection={handlePseudoSelection}
+            resetPseudoSelection={handleResetPseudoSelection}
           />
           <VisualizerGrid
             hands={HANDS}
             handStatusMap={handStatusMap}
             handleStatusChange={handleStatusChange}
+            pseudoSelectionMap={pseudoSelectionMap}
           />
           <VisualizerInfobar handStatusMap={handStatusMap} />
         </div>
-        <RangeSlider setRange={handleSetRange} />
+        <RangeSlider
+          setRange={handleSetRange}
+          setPseudoSelection={handlePseudoSelection}
+          resetPseudoSelection={handleResetPseudoSelection}
+        />
       </div>
-      {/* <CruncherSection /> */}
     </main>
   );
 };

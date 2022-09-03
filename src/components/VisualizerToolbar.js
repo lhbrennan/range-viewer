@@ -2,6 +2,15 @@ import React from 'react';
 import { Button, KIND, SIZE } from 'baseui/button';
 import { useStyletron } from 'baseui';
 import { BUTTON_WIDTH } from '../constants/layout';
+import {
+  HANDS,
+  PAIRS,
+  BROADWAY,
+  SUITED_CONNECTORS,
+  DEFAULT_HAND_STATUS_MAP,
+} from '../constants/hands';
+import { STATUS } from '../constants/statuses';
+import { createHandStatusMap } from './utils';
 
 const RangeButton = ({ children, ...rest }) => {
   const [, theme] = useStyletron();
@@ -18,14 +27,44 @@ const RangeButton = ({ children, ...rest }) => {
 };
 
 export const VisualizerToolbar = ({
-  selectAllPairs,
-  selectAllBroadway,
-  selectAllSuitedConnectors,
-  selectAllSuitedAx,
-  selectAllHands,
-  resetAllHands,
+  setHandStatusMap,
+  handStatusMap,
+  setPseudoSelection,
+  resetPseudoSelection,
 }) => {
   const [css] = useStyletron();
+
+  const selectAllPairs = () => {
+    setHandStatusMap({
+      ...handStatusMap,
+      ...createHandStatusMap(PAIRS, STATUS.yes),
+    });
+  };
+  const selectAllBroadway = () => {
+    setHandStatusMap({
+      ...handStatusMap,
+      ...createHandStatusMap(BROADWAY, STATUS.yes),
+    });
+  };
+  const selectAllSuitedConnectors = () => {
+    setHandStatusMap({
+      ...handStatusMap,
+      ...createHandStatusMap(SUITED_CONNECTORS, STATUS.yes),
+    });
+  };
+  const selectAllSuitedAx = () => {
+    setHandStatusMap({
+      ...handStatusMap,
+      ...createHandStatusMap(HANDS.slice(0, 13), STATUS.yes),
+    });
+  };
+  const selectAllHands = () => {
+    setHandStatusMap(createHandStatusMap(HANDS, STATUS.yes));
+  };
+  const resetAllHands = () => {
+    setHandStatusMap(DEFAULT_HAND_STATUS_MAP);
+  };
+
   return (
     <div
       className={css({
@@ -46,11 +85,41 @@ export const VisualizerToolbar = ({
           flexGrow: 1,
         })}
       >
-        <RangeButton onClick={selectAllPairs}>All Pairs</RangeButton>
-        <RangeButton onClick={selectAllBroadway}>All Broadway</RangeButton>
-        <RangeButton onClick={selectAllSuitedConnectors}>All Suited Connectors</RangeButton>
-        <RangeButton onClick={selectAllSuitedAx}>All Suited AX</RangeButton>
-        <RangeButton onClick={selectAllHands}>All Hands</RangeButton>
+        <RangeButton
+          onClick={selectAllPairs}
+          onMouseEnter={() => setPseudoSelection(PAIRS)}
+          onMouseLeave={resetPseudoSelection}
+        >
+          All Pairs
+        </RangeButton>
+        <RangeButton
+          onClick={selectAllBroadway}
+          onMouseEnter={() => setPseudoSelection(BROADWAY)}
+          onMouseLeave={resetPseudoSelection}
+        >
+          All Broadway
+        </RangeButton>
+        <RangeButton
+          onClick={selectAllSuitedConnectors}
+          onMouseEnter={() => setPseudoSelection(SUITED_CONNECTORS)}
+          onMouseLeave={resetPseudoSelection}
+        >
+          All Suited Connectors
+        </RangeButton>
+        <RangeButton
+          onClick={selectAllSuitedAx}
+          onMouseEnter={() => setPseudoSelection(HANDS.slice(0, 13))}
+          onMouseLeave={resetPseudoSelection}
+        >
+          All Suited AX
+        </RangeButton>
+        <RangeButton
+          onClick={selectAllHands}
+          onMouseEnter={() => setPseudoSelection(HANDS)}
+          onMouseLeave={resetPseudoSelection}
+        >
+          All Hands
+        </RangeButton>
       </div>
     </div>
   );

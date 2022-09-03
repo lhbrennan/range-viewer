@@ -38,7 +38,7 @@ const Inner = styled('div', {
   height: '100%',
 });
 
-export const VisualizerGrid = ({ hands, handStatusMap, handleStatusChange }) => (
+export const VisualizerGrid = ({ hands, handStatusMap, handleStatusChange, pseudoSelectionMap }) => (
   <Outer>
     <Middle>
       <Inner>
@@ -48,6 +48,7 @@ export const VisualizerGrid = ({ hands, handStatusMap, handleStatusChange }) => 
             status={handStatusMap[hand]}
             handleStatusChange={handleStatusChange}
             key={hand}
+            pseudoStatus={pseudoSelectionMap[hand]}
           />
         ))}
       </Inner>

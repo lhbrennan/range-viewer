@@ -38,33 +38,47 @@ const Container = styled('div', ({ $theme }) => ({
   marginTop: $theme.sizing.scale500,
 }));
 
-const RangeSlider = ({ setRange }) => {
+const RangeSlider = ({ setRange, setPseudoSelection, resetPseudoSelection }) => {
   const [value, setValue] = React.useState([0, 25]);
+  const selectedRange = calcSliderRange(...value, sixMaxRankings);
   return (
     <Container>
       <Button
         size={SIZE.compact}
         kind={KIND.minimal}
-        onClick={() => setRange(calcSliderRange(...value, sixMaxRankings))}
+        onClick={() => setRange(selectedRange)}
         overrides={{ Root: { style: { width: BUTTON_WIDTH, marginRight: LAYOUT_GRID_GUTTER } } }}
+        onMouseEnter={() => setPseudoSelection(selectedRange)}
+        onMouseLeave={resetPseudoSelection}
       >
         Add Selected Range
       </Button>
-      <Slider
-        value={value}
-        onChange={({ value }) => value && setValue(value)}
-        step={0.5}
-        overrides={{
-          Root: { style: { width: CENTER_WIDTH } },
-          ThumbValue: {
-            style: {
-              ':after': {
-                content: '"%"',
+        <Slider
+          value={value}
+          onChange={({ value }) => {
+            if (value) {
+              setValue(value);
+              setPseudoSelection(selectedRange);
+            }
+          }}
+          step={0.5}
+          overrides={{
+            Root: { style: { width: CENTER_WIDTH } },
+            ThumbValue: {
+              style: {
+                ':after': {
+                  content: '"%"',
+                },
               },
             },
-          },
-        }}
-      />
+            Track: {
+              props: {
+                onMouseEnter: () => setPseudoSelection(selectedRange),
+                onMouseLeave: resetPseudoSelection,
+              },
+            },
+          }}
+        />
     </Container>
   );
 };

@@ -4,7 +4,7 @@ import { colors } from 'baseui/tokens';
 import { determineHandType, HAND_TYPES } from '../utils';
 import { STATUS } from '../constants/statuses';
 
-const Button = styled('button', ({ $theme, $handType, $status }) => {
+const Button = styled('button', ({ $theme, $handType, $status, $pseudoStatus }) => {
   const BACKGROUND_COLOR = {
     yes: $theme.colors.accent,
     maybe: $theme.colors.accent200,
@@ -36,20 +36,26 @@ const Button = styled('button', ({ $theme, $handType, $status }) => {
         : $handType === HAND_TYPES.SUITED
         ? BACKGROUND_COLOR.suited
         : BACKGROUND_COLOR.unsuited,
-    border:
-      $status === STATUS.yes
-        ? `1px solid ${BACKGROUND_COLOR.yes}`
-        : $status === STATUS.maybe
-        ? `1px solid ${BACKGROUND_COLOR.maybe}`
-        : `1px solid ${$theme.colors.borderOpaque}`,
+    border: $pseudoStatus
+      ? `2px solid ${$theme.colors.black}`
+      : $status === STATUS.yes
+      ? `1px solid ${BACKGROUND_COLOR.yes}`
+      : $status === STATUS.maybe
+      ? `1px solid ${BACKGROUND_COLOR.maybe}`
+      : `1px solid ${$theme.colors.borderOpaque}`,
   };
 });
 
-export const VisualizerCell = ({ label, status, handleStatusChange }) => {
+export const VisualizerCell = ({ label, status, handleStatusChange, pseudoStatus }) => {
   const handType = determineHandType(label);
 
   return (
-    <Button $handType={handType} $status={status} onClick={() => handleStatusChange(label)}>
+    <Button
+      $handType={handType}
+      $status={status}
+      $pseudoStatus={pseudoStatus}
+      onClick={() => handleStatusChange(label)}
+    >
       {label}
     </Button>
   );
