@@ -96,7 +96,7 @@ export const Main = () => {
   const handleSelectAllSuitedAx = () => {
     setHandStatusMap({
       ...handStatusMap,
-      ...createHandStatusMap(hands[0], STATUS.yes),
+      ...createHandStatusMap(hands.slice(0, 13), STATUS.yes),
     });
   };
 
