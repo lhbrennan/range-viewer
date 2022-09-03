@@ -4,10 +4,11 @@ import { styled } from 'styletron-react';
 
 import { determineHandType, HAND_TYPES } from '../utils';
 
-const Wrapper = styled('div', ({ $handType, $status }) => ({
+const Button = styled('button', ({ $handType, $status }) => ({
   display: 'flex',
   justifyContent: 'center',
   alignItems: 'center',
+  cursor: 'pointer',
 
   border:
     $handType === HAND_TYPES.PAIR
@@ -29,12 +30,8 @@ export const VisualizerCell = ({ label, status, handleStatusChange }) => {
   const handType = determineHandType(label);
 
   return (
-    <Wrapper
-      $handType={handType}
-      $status={status}
-      onClick={() => handleStatusChange(label)}
-    >
+    <Button $handType={handType} $status={status} onClick={() => handleStatusChange(label)}>
       {label}
-    </Wrapper>
+    </Button>
   );
 };
