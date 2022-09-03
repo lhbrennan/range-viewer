@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { useStyletron } from 'baseui';
 
 import { VisualizerGrid } from './VisualizerGrid';
@@ -24,7 +24,10 @@ const getQueryStringValue = (key, searchParams) => searchParams.getAll(key);
 export const Main = () => {
   const [css] = useStyletron();
 
-  const searchParams = new URLSearchParams(window.location.search);
+  const searchParams = useMemo(() => {
+    return new URLSearchParams(window.location.search);
+  }, []);
+
   const yesHands = getQueryStringValue('yes', searchParams);
   const maybeHands = getQueryStringValue('maybe', searchParams);
 
