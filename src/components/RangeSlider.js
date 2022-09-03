@@ -5,7 +5,7 @@ import { styled } from 'baseui';
 
 import { calcNumHandCombos, totalPossibleCombos } from '../utils';
 import { sixMaxRankings } from '../constants/startingHandRankings';
-import { BUTTON_WIDTH, CENTER_WIDTH, TOOLBAR_RIGHT_MARGIN } from '../constants/layout';
+import { BUTTON_WIDTH, CENTER_WIDTH, LAYOUT_GRID_GUTTER } from '../constants/layout';
 
 const calcSliderRange = (start, end, handRankings) => {
   let numCombos = 0;
@@ -46,7 +46,7 @@ const RangeSlider = ({ setRange }) => {
         size={SIZE.compact}
         kind={KIND.minimal}
         onClick={() => setRange(calcSliderRange(...value, sixMaxRankings))}
-        overrides={{ Root: { style: { width: BUTTON_WIDTH, marginRight: TOOLBAR_RIGHT_MARGIN } } }}
+        overrides={{ Root: { style: { width: BUTTON_WIDTH, marginRight: LAYOUT_GRID_GUTTER } } }}
       >
         Add Selected Range
       </Button>

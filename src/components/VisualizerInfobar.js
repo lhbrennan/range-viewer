@@ -1,15 +1,7 @@
 import React from 'react';
-import { styled } from 'baseui';
-
+import { useStyletron } from 'baseui';
+import { StatefulTooltip } from 'baseui/tooltip';
 import { roundToPrecision, calcNumHandCombos, totalPossibleCombos } from '../utils';
-
-const Section = styled('section', {
-  display: 'flex',
-  flexFlow: 'row wrap',
-  justifyContent: 'space-between',
-  maxWidth: '700px',
-  margin: '0 auto',
-});
 
 const calcTotalNumSelectionCombos = (handStatusMap) =>
   Object.entries(handStatusMap).reduce(
@@ -26,16 +18,30 @@ const calcTotalNumSelectionCombos = (handStatusMap) =>
   );
 
 export const VisualizerInfobar = ({ handStatusMap }) => {
+  const [css] = useStyletron();
   const [yesCombos, maybeCombos] = calcTotalNumSelectionCombos(handStatusMap);
-
   const yesComboPercent = roundToPrecision((yesCombos / totalPossibleCombos) * 100, 0.01);
-
   const maybeComboPercent = roundToPrecision((maybeCombos / totalPossibleCombos) * 100, 0.01);
+  const combinedWeightedPercent = roundToPrecision(
+    ((yesCombos + 0.5 * maybeCombos) / totalPossibleCombos) * 100,
+    0.01
+  );
 
   return (
-    <Section>
-      <div>{`'Yes' combos: ${yesCombos}/${totalPossibleCombos} (${yesComboPercent}%)`}</div>
-      <div>{`'Maybe' combos: ${maybeCombos}/${totalPossibleCombos} (${maybeComboPercent}%)`}</div>
-    </Section>
+    <div className={css({ alignItems: 'flex-start', justifySelf: 'start' })}>
+      <StatefulTooltip
+        content={() => (
+          <>
+            <div>{`'Yes' combos: ${yesCombos}/${totalPossibleCombos} (${yesComboPercent}%)`}</div>
+            <div>{`'Maybe' combos: ${maybeCombos}/${totalPossibleCombos} (${maybeComboPercent}%)`}</div>
+          </>
+        )}
+      >
+        <div>
+          <div>Selected Range</div>
+          <div className={css({ textAlign: 'center' })}>{`${combinedWeightedPercent}%`}</div>
+        </div>
+      </StatefulTooltip>
+    </div>
   );
 };

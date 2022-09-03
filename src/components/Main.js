@@ -8,6 +8,7 @@ import { Header } from './Header';
 import { RangeSlider } from './RangeSlider';
 // import { CruncherSection } from "./CruncherSection";
 import { useStyletron } from 'baseui';
+import { LAYOUT_GRID_GUTTER } from '../constants/layout';
 
 /****** UTILS *****/
 const setQueryStringWithoutPageReload = (queryString) => {
@@ -120,6 +121,7 @@ export const Main = () => {
             gridTemplateColumns: '1fr auto 1fr',
             alignItems: 'start',
             justifyItems: 'end',
+            columnGap: LAYOUT_GRID_GUTTER,
           })}
         >
           <VisualizerToolbar

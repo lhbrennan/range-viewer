@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button, KIND, SIZE } from 'baseui/button';
 import { useStyletron } from 'baseui';
-import { BUTTON_WIDTH, TOOLBAR_RIGHT_MARGIN } from '../constants/layout';
+import { BUTTON_WIDTH } from '../constants/layout';
 
 const RangeButton = ({ children, ...rest }) => {
   const [, theme] = useStyletron();
@@ -32,7 +32,6 @@ export const VisualizerToolbar = ({
         display: 'flex',
         flexDirection: 'column',
         height: '100%',
-        marginRight: TOOLBAR_RIGHT_MARGIN,
       })}
     >
       <RangeButton onClick={resetAllHands} size={SIZE.large}>
