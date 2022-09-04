@@ -4,7 +4,7 @@ import { Button, SIZE, KIND } from 'baseui/button';
 import { styled } from 'baseui';
 
 import { calcNumHandCombos, totalPossibleCombos } from '../utils';
-import { sixMaxRankings } from '../constants/startingHandRankings';
+import { SIX_MAX_HAND_RANKING } from '../constants/starting-hand-rankings';
 import { BUTTON_WIDTH, CENTER_WIDTH, LAYOUT_GRID_GUTTER } from '../constants/layout';
 
 const calcSliderRange = (start, end, handRankings) => {
@@ -40,7 +40,7 @@ const Container = styled('div', ({ $theme }) => ({
 
 const RangeSlider = ({ setRange, setPseudoSelection, resetPseudoSelection }) => {
   const [value, setValue] = React.useState([0, 25]);
-  const selectedRange = calcSliderRange(...value, sixMaxRankings);
+  const selectedRange = calcSliderRange(...value, SIX_MAX_HAND_RANKING);
   return (
     <Container>
       <Button

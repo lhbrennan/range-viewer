@@ -6,7 +6,7 @@ Copyright 2012 ProPokerTools.com.
 Unlimited use so long as credit is given to ProPokerTools.com.
 */
 
-export const sixMaxRankings = [
+export const SIX_MAX_HAND_RANKING = [
   'AA',
   'KK',
   'QQ',
