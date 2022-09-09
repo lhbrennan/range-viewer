@@ -1,11 +1,16 @@
 import React from 'react';
 import { styled } from 'baseui';
 import { colors } from 'baseui/tokens';
+import { determineHandType } from '../utils';
+import { STATUS, HAND_TYPE } from '../constants';
+import type { HandType, Status } from '../types';
 
-import { determineHandType, HAND_TYPES } from '../utils';
-import { STATUS } from '../constants/statuses';
-
-const Button = styled('button', ({ $theme, $handType, $status, $pseudoStatus }) => {
+type Args = {
+  $handType: HandType;
+  $status: Status;
+  $pseudoStatus: boolean;
+};
+const Button = styled<'button', Args>('button', ({ $theme, $handType, $status, $pseudoStatus }) => {
   const BACKGROUND_COLOR = {
     yes: $theme.colors.accent,
     maybe: $theme.colors.accent200,
@@ -13,7 +18,6 @@ const Button = styled('button', ({ $theme, $handType, $status, $pseudoStatus }) 
     pair: colors.green50,
     unsuited: colors.red50,
   };
-
   return {
     ...$theme.typography.LabelSmall,
     fontFamily: 'inherit',
@@ -32,9 +36,9 @@ const Button = styled('button', ({ $theme, $handType, $status, $pseudoStatus }) 
         ? BACKGROUND_COLOR.yes
         : $status === STATUS.maybe
         ? BACKGROUND_COLOR.maybe
-        : $handType === HAND_TYPES.PAIR
+        : $handType === HAND_TYPE.PAIR
         ? BACKGROUND_COLOR.pair
-        : $handType === HAND_TYPES.SUITED
+        : $handType === HAND_TYPE.SUITED
         ? BACKGROUND_COLOR.suited
         : BACKGROUND_COLOR.unsuited,
     border: $pseudoStatus
@@ -47,7 +51,13 @@ const Button = styled('button', ({ $theme, $handType, $status, $pseudoStatus }) 
   };
 });
 
-export const VisualizerCell = ({ label, status, handleStatusChange, pseudoStatus }) => {
+type Props = {
+  label: string;
+  status: Status;
+  handleStatusChange: (label: string) => void;
+  pseudoStatus: boolean;
+};
+export const VisualizerCell = ({ label, status, handleStatusChange, pseudoStatus }: Props) => {
   const handType = determineHandType(label);
 
   return (

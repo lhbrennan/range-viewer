@@ -1,16 +1,21 @@
 import React from 'react';
 import { Slider } from 'baseui/slider';
-import { Button, SIZE, KIND } from 'baseui/button';
+import { Button, SIZE } from 'baseui/button';
 import { styled } from 'baseui';
 
 import { calcNumHandCombos, totalPossibleCombos } from '../utils';
 import { SIX_MAX_HAND_RANKING } from '../constants/starting-hand-rankings';
 import { BUTTON_WIDTH, CENTER_WIDTH, LAYOUT_GRID_GUTTER } from '../constants/layout';
 
-const calcSliderRange = (start, end, handRankings) => {
+interface Args {
+  start: number;
+  end: number;
+  handRankings: string[];
+}
+const getSelectRange = ({ start, end, handRankings }: Args) => {
   let numCombos = 0;
   let startIdx = 0;
-  let endIdx = null;
+  let endIdx = 0;
   for (let i = 0; i < handRankings.length; i++) {
     const hand = handRankings[i];
     numCombos += calcNumHandCombos(hand);
@@ -38,14 +43,22 @@ const Container = styled('div', ({ $theme }) => ({
   marginTop: $theme.sizing.scale500,
 }));
 
-const RangeSlider = ({ setRange, setPseudoSelection, resetPseudoSelection }) => {
+type Props = {
+  setRange: (range: string[]) => void;
+  setPseudoSelection: (range: string[]) => void;
+  resetPseudoSelection: () => void;
+};
+const RangeSlider = ({ setRange, setPseudoSelection, resetPseudoSelection }: Props) => {
   const [value, setValue] = React.useState([0, 25]);
-  const selectedRange = calcSliderRange(...value, SIX_MAX_HAND_RANKING);
+  const selectedRange = getSelectRange({
+    start: value[0],
+    end: value[1],
+    handRankings: SIX_MAX_HAND_RANKING,
+  });
   return (
     <Container>
       <Button
         size={SIZE.compact}
-        kind={KIND.minimal}
         onClick={() => setRange(selectedRange)}
         overrides={{ Root: { style: { width: BUTTON_WIDTH, marginRight: LAYOUT_GRID_GUTTER } } }}
         onMouseEnter={() => setPseudoSelection(selectedRange)}
@@ -53,32 +66,32 @@ const RangeSlider = ({ setRange, setPseudoSelection, resetPseudoSelection }) => 
       >
         Add Selected Range
       </Button>
-        <Slider
-          value={value}
-          onChange={({ value }) => {
-            if (value) {
-              setValue(value);
-              setPseudoSelection(selectedRange);
-            }
-          }}
-          step={0.5}
-          overrides={{
-            Root: { style: { width: CENTER_WIDTH } },
-            ThumbValue: {
-              style: {
-                ':after': {
-                  content: '"%"',
-                },
+      <Slider
+        value={value}
+        onChange={({ value }) => {
+          if (value) {
+            setValue(value);
+            setPseudoSelection(selectedRange);
+          }
+        }}
+        step={0.5}
+        overrides={{
+          Root: { style: { width: CENTER_WIDTH } },
+          ThumbValue: {
+            style: {
+              ':after': {
+                content: '"%"',
               },
             },
-            Track: {
-              props: {
-                onMouseEnter: () => setPseudoSelection(selectedRange),
-                onMouseLeave: resetPseudoSelection,
-              },
+          },
+          Track: {
+            props: {
+              onMouseEnter: () => setPseudoSelection(selectedRange),
+              onMouseLeave: resetPseudoSelection,
             },
-          }}
-        />
+          },
+        }}
+      />
     </Container>
   );
 };

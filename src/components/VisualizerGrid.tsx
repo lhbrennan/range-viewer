@@ -3,6 +3,7 @@ import { styled } from 'baseui';
 
 import { VisualizerCell } from './VisualizerCell';
 import { CENTER_WIDTH } from '../constants/layout';
+import { HandStatusMap } from '../types';
 
 const Container = styled('div', {
   height: CENTER_WIDTH,
@@ -16,12 +17,19 @@ const Container = styled('div', {
   fontFamily: 'PT Sans, sans-serif',
 });
 
+type Props = {
+  hands: string[];
+  handStatusMap: HandStatusMap;
+  handleStatusChange: (label: string) => void;
+  pseudoSelectionMap: { [hand: string]: boolean };
+};
+
 export const VisualizerGrid = ({
   hands,
   handStatusMap,
   handleStatusChange,
   pseudoSelectionMap,
-}) => (
+}: Props) => (
   <Container>
     {hands.map((hand) => (
       <VisualizerCell

@@ -1,5 +1,11 @@
 import { STATUS } from '../constants/statuses';
 
+export const HAND_TYPE = {
+  PAIR: 'pair',
+  SUITED: 'suited',
+  UNSUITED: 'unsuited',
+};
+
 // prettier-ignore
 export const HANDS = [
   'AA', 'AKs', 'AQs', 'AJs', 'ATs', 'A9s', 'A8s', 'A7s', 'A6s', 'A5s','A4s', 'A3s', 'A2s',

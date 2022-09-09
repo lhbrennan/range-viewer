@@ -4,11 +4,10 @@ import { useStyletron } from 'baseui';
 import { VisualizerGrid } from './VisualizerGrid';
 import { VisualizerToolbar } from './VisualizerToolbar';
 import { VisualizerInfobar } from './VisualizerInfobar';
-import { Header } from './Header';
-import { RangeSlider } from './RangeSlider';
+import { Header } from './Header.tsx';
+import { RangeSlider } from './RangeSlider.tsx';
 import { STATUS } from '../constants/statuses';
-import { LAYOUT_GRID_GUTTER } from '../constants/layout';
-import { HANDS, DEFAULT_HAND_STATUS_MAP } from '../constants/hands';
+import { LAYOUT_GRID_GUTTER, HANDS, DEFAULT_HAND_STATUS_MAP } from '../constants';
 import { createHandStatusMap } from './utils';
 
 /****** UTILS *****/

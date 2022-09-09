@@ -1,7 +1,7 @@
 import React from 'react';
 import { useStyletron } from 'baseui';
 
-const Header = (props) => {
+const Header = () => {
   const [css, theme] = useStyletron();
   return (
     <section

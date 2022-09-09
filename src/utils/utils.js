@@ -1,10 +1,6 @@
-export const totalPossibleCombos = 1326;
+import { HAND_TYPE } from './constants';
 
-export const HAND_TYPES = {
-  PAIR: 'pair',
-  SUITED: 'suited',
-  UNSUITED: 'unsuited',
-};
+export const totalPossibleCombos = 1326;
 
 export const SUITS = {
   h: 'hearts',
@@ -13,21 +9,7 @@ export const SUITS = {
   s: 'spades',
 };
 
-export const CARD_RANKS = [
-  'A',
-  'K',
-  'Q',
-  'J',
-  'T',
-  '9',
-  '8',
-  '7',
-  '6',
-  '5',
-  '4',
-  '3',
-  '2',
-]; // eslint-disable-line
+export const CARD_RANKS = ['A', 'K', 'Q', 'J', 'T', '9', '8', '7', '6', '5', '4', '3', '2']; // eslint-disable-line
 
 export const roundToPrecision = (num, precision) => {
   const adjuster = 1 / precision;
@@ -37,10 +19,10 @@ export const roundToPrecision = (num, precision) => {
 export const calcNumHandCombos = (hand) => {
   const handType = determineHandType(hand);
 
-  if (handType === HAND_TYPES.PAIR) {
+  if (handType === HAND_TYPE.PAIR) {
     return 6;
   }
-  if (handType === HAND_TYPES.SUITED) {
+  if (handType === HAND_TYPE.SUITED) {
     return 4;
   }
   return 12;
@@ -48,12 +30,12 @@ export const calcNumHandCombos = (hand) => {
 
 export const determineHandType = (hand) => {
   if (hand.charAt(0) === hand.charAt(1)) {
-    return HAND_TYPES.PAIR;
+    return HAND_TYPE.PAIR;
   }
   if (hand.charAt(2) === 's') {
-    return HAND_TYPES.SUITED;
+    return HAND_TYPE.SUITED;
   }
-  return HAND_TYPES.UNSUITED;
+  return HAND_TYPE.UNSUITED;
 };
 
 export const getAllPairCombos = (hand) => {
@@ -95,9 +77,9 @@ export const getAllUnsuitedCombos = (hand) => {
 export const getAllHandsFromCombo = (hand) => {
   const handType = determineHandType(hand);
 
-  if (handType === HAND_TYPES.PAIR) {
+  if (handType === HAND_TYPE.PAIR) {
     return getAllPairCombos(hand);
-  } else if (handType === HAND_TYPES.SUITED) {
+  } else if (handType === HAND_TYPE.SUITED) {
     return getAllSuitedCombos(hand);
   } else {
     return getAllUnsuitedCombos(hand);
@@ -146,11 +128,7 @@ export const isHandCombo = (str) => {
   const firstCharRank = CARD_RANKS.indexOf(firstChar);
   const secondCharRank = CARD_RANKS.indexOf(secondChar);
 
-  if (
-    firstCharRank < 0 ||
-    secondCharRank < 0 ||
-    secondCharRank < firstCharRank
-  ) {
+  if (firstCharRank < 0 || secondCharRank < 0 || secondCharRank < firstCharRank) {
     return false;
   }
 
@@ -178,8 +156,8 @@ export const handCombosAreSimilar = (combo1, combo2) => {
   }
 
   if (
-    determineHandType(combo1) === HAND_TYPES.PAIR &&
-    determineHandType(combo2) === HAND_TYPES.PAIR
+    determineHandType(combo1) === HAND_TYPE.PAIR &&
+    determineHandType(combo2) === HAND_TYPE.PAIR
   ) {
     return true;
   }
