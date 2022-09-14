@@ -64,8 +64,7 @@ export const Main = () => {
     setQueryStringWithoutPageReload(searchParams.toString());
   }, [handSelectionMap, searchParams]);
 
-  /*** handlers ***/
-  const handleSelectionChange = (hand: Hand) => {
+  const handleSingleHandSelection = (hand: Hand) => {
     const currStatus = handSelectionMap[hand];
     const nextStatus = currStatus === STATUS.no ? STATUS.yes : STATUS.no;
     // const nextStatus =
@@ -122,7 +121,7 @@ export const Main = () => {
           <VisualizerGrid
             hands={[...HANDS]}
             handSelectionMap={handSelectionMap}
-            handleSelectionChange={handleSelectionChange}
+            handleSingleHandSelection={handleSingleHandSelection}
             pseudoSelectionMap={pseudoSelectionMap}
           />
           <VisualizerInfobar handSelectionMap={handSelectionMap} />

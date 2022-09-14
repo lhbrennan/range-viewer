@@ -20,14 +20,14 @@ const Container = styled('div', {
 type Props = {
   hands: Hand[];
   handSelectionMap: HandSelectionMap;
-  handleSelectionChange: (hand: Hand) => void;
+  handleSingleHandSelection: (hand: Hand) => void;
   pseudoSelectionMap: { [key in Hand]?: boolean };
 };
 
 export const VisualizerGrid = ({
   hands,
   handSelectionMap,
-  handleSelectionChange,
+  handleSingleHandSelection,
   pseudoSelectionMap,
 }: Props) => (
   <Container>
@@ -35,7 +35,7 @@ export const VisualizerGrid = ({
       <VisualizerCell
         hand={hand}
         status={handSelectionMap[hand]}
-        handleSelectionChange={handleSelectionChange}
+        handleSingleHandSelection={handleSingleHandSelection}
         key={hand}
         pseudoStatus={pseudoSelectionMap[hand]}
       />
