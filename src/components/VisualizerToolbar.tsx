@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, KIND, SIZE } from 'baseui/button';
+import { Button, type ButtonProps, KIND, SIZE } from 'baseui/button';
 import { useStyletron } from 'baseui';
 
 import { BUTTON_WIDTH } from '../constants/layout';
@@ -12,8 +12,13 @@ import {
 } from '../constants/hands';
 import { STATUS } from '../constants/statuses';
 import { createHandStatusMap } from './utils';
+import type { HandStatusMap, Hand } from '../types';
 
-const RangeButton = ({ children, ...rest }) => {
+type RangeButtonProps = ButtonProps & {
+  onMouseEnter?: () => void;
+  onMouseLeave?: () => void;
+};
+const RangeButton = ({ children, ...rest }: RangeButtonProps) => {
   const [, theme] = useStyletron();
   return (
     <Button
@@ -27,30 +32,36 @@ const RangeButton = ({ children, ...rest }) => {
   );
 };
 
+type Props = {
+  setHandStatusMap: (handStatusMap: HandStatusMap) => void;
+  handStatusMap: HandStatusMap;
+  setPseudoSelection: (hands: Hand[]) => void;
+  resetPseudoSelection: () => void;
+};
 export const VisualizerToolbar = ({
   setHandStatusMap,
   handStatusMap,
   setPseudoSelection,
   resetPseudoSelection,
-}) => {
+}: Props) => {
   const [css] = useStyletron();
 
   const selectAllPairs = () => {
     setHandStatusMap({
       ...handStatusMap,
-      ...createHandStatusMap(PAIRS, STATUS.yes),
+      ...createHandStatusMap([...PAIRS], STATUS.yes),
     });
   };
   const selectAllBroadway = () => {
     setHandStatusMap({
       ...handStatusMap,
-      ...createHandStatusMap(BROADWAY, STATUS.yes),
+      ...createHandStatusMap([...BROADWAY], STATUS.yes),
     });
   };
   const selectAllSuitedConnectors = () => {
     setHandStatusMap({
       ...handStatusMap,
-      ...createHandStatusMap(SUITED_CONNECTORS, STATUS.yes),
+      ...createHandStatusMap([...SUITED_CONNECTORS], STATUS.yes),
     });
   };
   const selectAllSuitedAx = () => {
@@ -60,7 +71,7 @@ export const VisualizerToolbar = ({
     });
   };
   const selectAllHands = () => {
-    setHandStatusMap(createHandStatusMap(HANDS, STATUS.yes));
+    setHandStatusMap(createHandStatusMap([...HANDS], STATUS.yes));
   };
   const resetAllHands = () => {
     setHandStatusMap(DEFAULT_HAND_STATUS_MAP);
@@ -88,21 +99,21 @@ export const VisualizerToolbar = ({
       >
         <RangeButton
           onClick={selectAllPairs}
-          onMouseEnter={() => setPseudoSelection(PAIRS)}
+          onMouseEnter={() => setPseudoSelection([...PAIRS])}
           onMouseLeave={resetPseudoSelection}
         >
           All Pairs
         </RangeButton>
         <RangeButton
           onClick={selectAllBroadway}
-          onMouseEnter={() => setPseudoSelection(BROADWAY)}
+          onMouseEnter={() => setPseudoSelection([...BROADWAY])}
           onMouseLeave={resetPseudoSelection}
         >
           All Broadway
         </RangeButton>
         <RangeButton
           onClick={selectAllSuitedConnectors}
-          onMouseEnter={() => setPseudoSelection(SUITED_CONNECTORS)}
+          onMouseEnter={() => setPseudoSelection([...SUITED_CONNECTORS])}
           onMouseLeave={resetPseudoSelection}
         >
           All Suited Connectors
@@ -116,7 +127,7 @@ export const VisualizerToolbar = ({
         </RangeButton>
         <RangeButton
           onClick={selectAllHands}
-          onMouseEnter={() => setPseudoSelection(HANDS)}
+          onMouseEnter={() => setPseudoSelection([...HANDS])}
           onMouseLeave={resetPseudoSelection}
         >
           All Hands

@@ -4,14 +4,14 @@ import { Button, SIZE } from 'baseui/button';
 import { styled } from 'baseui';
 
 import { calcNumHandCombos, totalPossibleCombos } from '../utils';
-import { SIX_MAX_HAND_RANKING } from '../constants/starting-hand-rankings';
-import { BUTTON_WIDTH, CENTER_WIDTH, LAYOUT_GRID_GUTTER } from '../constants/layout';
+import { BUTTON_WIDTH, CENTER_WIDTH, LAYOUT_GRID_GUTTER, SIX_MAX_HAND_RANKING } from '../constants';
+import type { Hand } from '../types';
 
-interface Args {
+type Args = {
   start: number;
   end: number;
-  handRankings: string[];
-}
+  handRankings: Hand[];
+};
 const getSelectRange = ({ start, end, handRankings }: Args) => {
   let numCombos = 0;
   let startIdx = 0;
@@ -44,8 +44,8 @@ const Container = styled('div', ({ $theme }) => ({
 }));
 
 type Props = {
-  setRange: (range: string[]) => void;
-  setPseudoSelection: (range: string[]) => void;
+  setRange: (range: Hand[]) => void;
+  setPseudoSelection: (range: Hand[]) => void;
   resetPseudoSelection: () => void;
 };
 const RangeSlider = ({ setRange, setPseudoSelection, resetPseudoSelection }: Props) => {
@@ -53,7 +53,7 @@ const RangeSlider = ({ setRange, setPseudoSelection, resetPseudoSelection }: Pro
   const selectedRange = getSelectRange({
     start: value[0],
     end: value[1],
-    handRankings: SIX_MAX_HAND_RANKING,
+    handRankings: [...SIX_MAX_HAND_RANKING],
   });
   return (
     <Container>

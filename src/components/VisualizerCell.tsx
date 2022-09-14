@@ -3,7 +3,7 @@ import { styled } from 'baseui';
 import { colors } from 'baseui/tokens';
 import { determineHandType } from '../utils';
 import { STATUS, HAND_TYPE } from '../constants';
-import type { HandType, Status } from '../types';
+import type { Hand, HandType, Status } from '../types';
 
 type Args = {
   $handType: HandType;
@@ -36,9 +36,9 @@ const Button = styled<'button', Args>('button', ({ $theme, $handType, $status, $
         ? BACKGROUND_COLOR.yes
         : $status === STATUS.maybe
         ? BACKGROUND_COLOR.maybe
-        : $handType === HAND_TYPE.PAIR
+        : $handType === HAND_TYPE.pair
         ? BACKGROUND_COLOR.pair
-        : $handType === HAND_TYPE.SUITED
+        : $handType === HAND_TYPE.suited
         ? BACKGROUND_COLOR.suited
         : BACKGROUND_COLOR.unsuited,
     border: $pseudoStatus
@@ -52,22 +52,22 @@ const Button = styled<'button', Args>('button', ({ $theme, $handType, $status, $
 });
 
 type Props = {
-  label: string;
-  status: Status;
-  handleStatusChange: (label: string) => void;
-  pseudoStatus: boolean;
+  hand: Hand;
+  status: Status | undefined;
+  handleStatusChange: (hand: Hand) => void;
+  pseudoStatus: boolean | undefined;
 };
-export const VisualizerCell = ({ label, status, handleStatusChange, pseudoStatus }: Props) => {
-  const handType = determineHandType(label);
+export const VisualizerCell = ({ hand, status = STATUS.no, handleStatusChange, pseudoStatus }: Props) => {
+  const handType = determineHandType(hand);
 
   return (
     <Button
       $handType={handType}
       $status={status}
-      $pseudoStatus={pseudoStatus}
-      onClick={() => handleStatusChange(label)}
+      $pseudoStatus={Boolean(pseudoStatus)}
+      onClick={() => handleStatusChange(hand)}
     >
-      {label}
+      {hand}
     </Button>
   );
 };

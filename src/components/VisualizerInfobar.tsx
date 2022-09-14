@@ -2,24 +2,30 @@ import React from 'react';
 import { useStyletron } from 'baseui';
 import { StatefulTooltip } from 'baseui/tooltip';
 
-import { roundToPrecision, calcNumHandCombos, totalPossibleCombos } from '../utils';
+import { roundToPrecision, calcNumHandCombos, totalPossibleCombos, isHand } from '../utils';
 import { STATUS } from '../constants/statuses';
+import { HandStatusMap } from '../types';
 
-const calcTotalNumSelectionCombos = (handStatusMap) =>
+const calcTotalNumSelectionCombos = (handStatusMap: HandStatusMap) =>
   Object.entries(handStatusMap).reduce(
-    (count, hand) => {
-      const [label, status] = hand;
+    (count, entry) => {
+      const [hand, status] = entry;
+      // * needed for TS
+      if (!isHand(hand)) {
+        return count;
+      }
       if (status === STATUS.yes) {
-        count[0] = count[0] + calcNumHandCombos(label);
+        count[0] = count[0] + calcNumHandCombos(hand);
       } else if (status === STATUS.maybe) {
-        count[1] = count[1] + calcNumHandCombos(label);
+        count[1] = count[1] + calcNumHandCombos(hand);
       }
       return count;
     },
     [0, 0]
   );
 
-export const VisualizerInfobar = ({ handStatusMap }) => {
+type Props = { handStatusMap: HandStatusMap };
+export const VisualizerInfobar = ({ handStatusMap }: Props) => {
   const [css] = useStyletron();
   const [yesCombos, maybeCombos] = calcTotalNumSelectionCombos(handStatusMap);
   const yesComboPercent = roundToPrecision((yesCombos / totalPossibleCombos) * 100, 0.01);

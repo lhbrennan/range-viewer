@@ -1,4 +1,4 @@
-import { isCard, isHand, isHandCombo, handCombosAreSimilar } from '../utils';
+import { isCard, isExactHand, isHand, handCombosAreSimilar } from '../utils';
 
 describe('isCard', () => {
   test('it works', () => {
@@ -12,33 +12,33 @@ describe('isCard', () => {
   });
 });
 
-describe('isHand', () => {
+describe('isExactHand', () => {
   test('it works', () => {
-    expect(isHand('AhKc')).toBe(true);
-    expect(isHand('Ts9d')).toBe(true);
-    expect(isHand('4c4h')).toBe(true);
-    expect(isHand('Td9d')).toBe(true);
-    expect(isHand('Tds')).toBe(false);
-    expect(isHand('TTc')).toBe(false);
-    expect(isHand('Ax5')).toBe(false);
-    expect(isHand('JsJs')).toBe(false);
+    expect(isExactHand('AhKc')).toBe(true);
+    expect(isExactHand('Ts9d')).toBe(true);
+    expect(isExactHand('4c4h')).toBe(true);
+    expect(isExactHand('Td9d')).toBe(true);
+    expect(isExactHand('Tds')).toBe(false);
+    expect(isExactHand('TTc')).toBe(false);
+    expect(isExactHand('Ax5')).toBe(false);
+    expect(isExactHand('JsJs')).toBe(false);
   });
 });
 
-describe('isHandCombo', () => {
+describe('isHand', () => {
   test('it works', () => {
-    expect(isHandCombo('AKs')).toBe(true);
-    expect(isHandCombo('AKo')).toBe(true);
-    expect(isHandCombo('AK')).toBe(true);
-    expect(isHandCombo('AA')).toBe(true);
-    expect(isHandCombo('AhKc')).toBe(false);
-    expect(isHandCombo('Ts9d')).toBe(false);
-    expect(isHandCombo('4c')).toBe(false);
-    expect(isHandCombo('Td9d')).toBe(false);
-    expect(isHandCombo('TTc')).toBe(false);
-    expect(isHandCombo('Ax5')).toBe(false);
-    expect(isHandCombo('JsJs')).toBe(false);
-    expect(isHandCombo('JJs')).toBe(false);
+    expect(isHand('AKs')).toBe(true);
+    expect(isHand('AKo')).toBe(true);
+    expect(isHand('AK')).toBe(true);
+    expect(isHand('AA')).toBe(true);
+    expect(isHand('AhKc')).toBe(false);
+    expect(isHand('Ts9d')).toBe(false);
+    expect(isHand('4c')).toBe(false);
+    expect(isHand('Td9d')).toBe(false);
+    expect(isHand('TTc')).toBe(false);
+    expect(isHand('Ax5')).toBe(false);
+    expect(isHand('JsJs')).toBe(false);
+    expect(isHand('JJs')).toBe(false);
   });
 });
 

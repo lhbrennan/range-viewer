@@ -1,10 +1,10 @@
-import { STATUS } from '../constants/statuses';
+import { STATUS } from './statuses';
 
 export const HAND_TYPE = {
-  PAIR: 'pair',
-  SUITED: 'suited',
-  UNSUITED: 'unsuited',
-};
+  pair: 'pair',
+  suited: 'suited',
+  unsuited: 'unsuited',
+} as const;
 
 // prettier-ignore
 export const HANDS = [
@@ -21,9 +21,9 @@ export const HANDS = [
   'A4', 'K4','Q4', 'J4', 'T4', '94', '84', '74', '64', '54','44', '43s', '42s',
   'A3', 'K3','Q3', 'J3', 'T3', '93', '83', '73', '63', '53','43', '33', '32s',
   'A2', 'K2','Q2', 'J2', 'T2', '92', '82', '72', '62', '52','42', '32', '22',
-];
+] as const;
 
-export const PAIRS = ['AA', 'KK', 'QQ', 'JJ', 'TT', 99, 88, 77, 66, 55, 44, 33, 22];
+export const PAIRS = ['AA', 'KK', 'QQ', 'JJ', 'TT', '99', '88', '77', '66', '55', '44', '33', '22'] as const;
 
 export const SUITED_CONNECTORS = [
   'AKs',
@@ -38,7 +38,7 @@ export const SUITED_CONNECTORS = [
   '54s',
   '43s',
   '32s',
-];
+] as const;
 
 export const BROADWAY = [
   'AA',
@@ -66,7 +66,7 @@ export const BROADWAY = [
   'QT',
   'JT',
   'TT',
-];
+] as const;
 
 export const DEFAULT_HAND_STATUS_MAP = {
   AA: STATUS.no,
@@ -139,7 +139,7 @@ export const DEFAULT_HAND_STATUS_MAP = {
   Q9: STATUS.no,
   J9: STATUS.no,
   T9: STATUS.no,
-  99: STATUS.no,
+  '99': STATUS.no,
   '98s': STATUS.no,
   '97s': STATUS.no,
   '96s': STATUS.no,
@@ -152,8 +152,8 @@ export const DEFAULT_HAND_STATUS_MAP = {
   Q8: STATUS.no,
   J8: STATUS.no,
   T8: STATUS.no,
-  98: STATUS.no,
-  88: STATUS.no,
+  '98': STATUS.no,
+  '88': STATUS.no,
   '87s': STATUS.no,
   '86s': STATUS.no,
   '85s': STATUS.no,
@@ -165,9 +165,9 @@ export const DEFAULT_HAND_STATUS_MAP = {
   Q7: STATUS.no,
   J7: STATUS.no,
   T7: STATUS.no,
-  97: STATUS.no,
-  87: STATUS.no,
-  77: STATUS.no,
+  '97': STATUS.no,
+  '87': STATUS.no,
+  '77': STATUS.no,
   '76s': STATUS.no,
   '75s': STATUS.no,
   '74s': STATUS.no,
@@ -178,10 +178,10 @@ export const DEFAULT_HAND_STATUS_MAP = {
   Q6: STATUS.no,
   J6: STATUS.no,
   T6: STATUS.no,
-  96: STATUS.no,
-  86: STATUS.no,
-  76: STATUS.no,
-  66: STATUS.no,
+  '96': STATUS.no,
+  '86': STATUS.no,
+  '76': STATUS.no,
+  '66': STATUS.no,
   '65s': STATUS.no,
   '64s': STATUS.no,
   '63s': STATUS.no,
@@ -191,11 +191,11 @@ export const DEFAULT_HAND_STATUS_MAP = {
   Q5: STATUS.no,
   J5: STATUS.no,
   T5: STATUS.no,
-  95: STATUS.no,
-  85: STATUS.no,
-  75: STATUS.no,
-  65: STATUS.no,
-  55: STATUS.no,
+  '95': STATUS.no,
+  '85': STATUS.no,
+  '75': STATUS.no,
+  '65': STATUS.no,
+  '55': STATUS.no,
   '54s': STATUS.no,
   '53s': STATUS.no,
   '52s': STATUS.no,
@@ -204,12 +204,12 @@ export const DEFAULT_HAND_STATUS_MAP = {
   Q4: STATUS.no,
   J4: STATUS.no,
   T4: STATUS.no,
-  94: STATUS.no,
-  84: STATUS.no,
-  74: STATUS.no,
-  64: STATUS.no,
-  54: STATUS.no,
-  44: STATUS.no,
+  '94': STATUS.no,
+  '84': STATUS.no,
+  '74': STATUS.no,
+  '64': STATUS.no,
+  '54': STATUS.no,
+  '44': STATUS.no,
   '43s': STATUS.no,
   '42s': STATUS.no,
   A3: STATUS.no,
@@ -217,25 +217,25 @@ export const DEFAULT_HAND_STATUS_MAP = {
   Q3: STATUS.no,
   J3: STATUS.no,
   T3: STATUS.no,
-  93: STATUS.no,
-  83: STATUS.no,
-  73: STATUS.no,
-  63: STATUS.no,
-  53: STATUS.no,
-  43: STATUS.no,
-  33: STATUS.no,
+  '93': STATUS.no,
+  '83': STATUS.no,
+  '73': STATUS.no,
+  '63': STATUS.no,
+  '53': STATUS.no,
+  '43': STATUS.no,
+  '33': STATUS.no,
   '32s': STATUS.no,
   A2: STATUS.no,
   K2: STATUS.no,
   Q2: STATUS.no,
   J2: STATUS.no,
   T2: STATUS.no,
-  92: STATUS.no,
-  82: STATUS.no,
-  72: STATUS.no,
-  62: STATUS.no,
-  52: STATUS.no,
-  42: STATUS.no,
-  32: STATUS.no,
-  22: STATUS.no,
+  '92': STATUS.no,
+  '82': STATUS.no,
+  '72': STATUS.no,
+  '62': STATUS.no,
+  '52': STATUS.no,
+  '42': STATUS.no,
+  '32': STATUS.no,
+  '22': STATUS.no,
 };

@@ -176,4 +176,4 @@ export const SIX_MAX_HAND_RANKING = [
   '62',
   '72',
   '32',
-];
+] as const;

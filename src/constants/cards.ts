@@ -1,4 +1,4 @@
-export const cards = [
+export const CARDS = [
   'Ah',
   'Ac',
   'Ad',
@@ -51,4 +51,27 @@ export const cards = [
   '2c',
   '2d',
   '2s',
-];
+] as const;
+
+export const SUITS = {
+  h: 'hearts',
+  d: 'diamonds',
+  c: 'clubs',
+  s: 'spades',
+} as const;
+
+export const CARD_RANKS = [
+  'A',
+  'K',
+  'Q',
+  'J',
+  'T',
+  '9',
+  '8',
+  '7',
+  '6',
+  '5',
+  '4',
+  '3',
+  '2',
+] as const;
