@@ -47,6 +47,8 @@ export const Main = () => {
 
   const [pseudoSelectionMap, setPseudoSelectionMap] = useState({});
 
+  // const [useMaybes, setUseMaybes] = useState(false);
+
   useEffect(() => {
     searchParams.delete('yes');
     searchParams.delete('maybe');
@@ -65,12 +67,14 @@ export const Main = () => {
   /*** handlers ***/
   const handleSelectionChange = (hand: Hand) => {
     const currStatus = handSelectionMap[hand];
-    const nextStatus =
-      currStatus === STATUS.no
-        ? STATUS.yes
-        : currStatus === STATUS.maybe
-        ? STATUS.no
-        : STATUS.maybe;
+    const nextStatus = currStatus === STATUS.no ? STATUS.yes : STATUS.no;
+
+    // const nextStatus =
+    //   currStatus === STATUS.no
+    //     ? STATUS.yes
+    //     : currStatus === STATUS.maybe
+    //     ? STATUS.no
+    //     : STATUS.maybe;
 
     setHandSelectionMap({
       ...handSelectionMap,
