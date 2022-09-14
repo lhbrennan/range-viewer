@@ -8,9 +8,9 @@ import { Header } from './Header';
 import { RangeSlider } from './RangeSlider';
 import { STATUS } from '../constants/statuses';
 import { LAYOUT_GRID_GUTTER, HANDS, DEFAULT_HAND_STATUS_MAP } from '../constants';
-import { createHandStatusMap, createPsuedoSelectionMap } from './utils';
+import { createHandSelectionMap, createPsuedoSelectionMap } from './utils';
 import { isHand } from '../utils';
-import type { Status, Hand, HandStatusMap } from '../types';
+import type { Status, Hand, HandSelectionMap } from '../types';
 
 /****** UTILS *****/
 const setQueryStringWithoutPageReload = (queryString: string) => {
@@ -36,13 +36,13 @@ export const Main = () => {
   );
   // @ts-ignore
   const maybeHands: Hand[] = getQueryStringValue('maybe', searchParams).filter((maybeHand) =>
-  isHand(maybeHand)
-);;
+    isHand(maybeHand)
+  );
 
-  const [handStatusMap, setHandStatusMap] = useState<HandStatusMap>({
+  const [handSelectionMap, setHandSelectionMap] = useState<HandSelectionMap>({
     ...DEFAULT_HAND_STATUS_MAP,
-    ...createHandStatusMap(yesHands, STATUS.yes),
-    ...createHandStatusMap(maybeHands, STATUS.maybe),
+    ...createHandSelectionMap(yesHands, STATUS.yes),
+    ...createHandSelectionMap(maybeHands, STATUS.maybe),
   });
 
   const [pseudoSelectionMap, setPseudoSelectionMap] = useState({});
@@ -50,7 +50,7 @@ export const Main = () => {
   useEffect(() => {
     searchParams.delete('yes');
     searchParams.delete('maybe');
-    Object.entries(handStatusMap).forEach((hand) => {
+    Object.entries(handSelectionMap).forEach((hand) => {
       const [label, status] = hand;
       if (status === STATUS.yes) {
         searchParams.append('yes', label);
@@ -60,11 +60,11 @@ export const Main = () => {
     });
 
     setQueryStringWithoutPageReload(searchParams.toString());
-  }, [handStatusMap, searchParams]);
+  }, [handSelectionMap, searchParams]);
 
   /*** handlers ***/
-  const handleStatusChange = (hand: Hand) => {
-    const currStatus = handStatusMap[hand];
+  const handleSelectionChange = (hand: Hand) => {
+    const currStatus = handSelectionMap[hand];
     const nextStatus =
       currStatus === STATUS.no
         ? STATUS.yes
@@ -72,15 +72,15 @@ export const Main = () => {
         ? STATUS.no
         : STATUS.maybe;
 
-    setHandStatusMap({
-      ...handStatusMap,
+    setHandSelectionMap({
+      ...handSelectionMap,
       [hand]: nextStatus,
     });
   };
   const handleSetRange = (hands: Hand[]) => {
-    setHandStatusMap({
-      ...handStatusMap,
-      ...createHandStatusMap(hands, STATUS.yes),
+    setHandSelectionMap({
+      ...handSelectionMap,
+      ...createHandSelectionMap(hands, STATUS.yes),
     });
   };
   const handlePseudoSelection = (hands: Hand[]) =>
@@ -105,18 +105,18 @@ export const Main = () => {
           })}
         >
           <VisualizerToolbar
-            setHandStatusMap={setHandStatusMap}
-            handStatusMap={handStatusMap}
+            setHandSelectionMap={setHandSelectionMap}
+            handSelectionMap={handSelectionMap}
             setPseudoSelection={handlePseudoSelection}
             resetPseudoSelection={handleResetPseudoSelection}
           />
           <VisualizerGrid
             hands={[...HANDS]}
-            handStatusMap={handStatusMap}
-            handleStatusChange={handleStatusChange}
+            handSelectionMap={handSelectionMap}
+            handleSelectionChange={handleSelectionChange}
             pseudoSelectionMap={pseudoSelectionMap}
           />
-          <VisualizerInfobar handStatusMap={handStatusMap} />
+          <VisualizerInfobar handSelectionMap={handSelectionMap} />
         </div>
         <RangeSlider
           setRange={handleSetRange}

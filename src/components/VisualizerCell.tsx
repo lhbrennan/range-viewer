@@ -54,10 +54,10 @@ const Button = styled<'button', Args>('button', ({ $theme, $handType, $status, $
 type Props = {
   hand: Hand;
   status: Status | undefined;
-  handleStatusChange: (hand: Hand) => void;
+  handleSelectionChange: (hand: Hand) => void;
   pseudoStatus: boolean | undefined;
 };
-export const VisualizerCell = ({ hand, status = STATUS.no, handleStatusChange, pseudoStatus }: Props) => {
+export const VisualizerCell = ({ hand, status = STATUS.no, handleSelectionChange, pseudoStatus }: Props) => {
   const handType = determineHandType(hand);
 
   return (
@@ -65,7 +65,7 @@ export const VisualizerCell = ({ hand, status = STATUS.no, handleStatusChange, p
       $handType={handType}
       $status={status}
       $pseudoStatus={Boolean(pseudoStatus)}
-      onClick={() => handleStatusChange(hand)}
+      onClick={() => handleSelectionChange(hand)}
     >
       {hand}
     </Button>

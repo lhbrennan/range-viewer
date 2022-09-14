@@ -1,10 +1,10 @@
-import { Status, Hand, HandStatusMap, PseudoSelectionMap } from '../types';
+import { Status, Hand, HandSelectionMap, PseudoSelectionMap } from '../types';
 // TODO: probably move this to the other utils file
-export const createHandStatusMap = (hands: Hand[], status: Status): HandStatusMap => {
+export const createHandSelectionMap = (hands: Hand[], status: Status): HandSelectionMap => {
   if (!hands) {
     return {};
   }
-  return hands.reduce<HandStatusMap>((map, pair) => {
+  return hands.reduce<HandSelectionMap>((map, pair) => {
     map[pair] = status;
     return map;
   }, {});

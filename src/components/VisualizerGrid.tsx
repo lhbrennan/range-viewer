@@ -3,7 +3,7 @@ import { styled } from 'baseui';
 
 import { VisualizerCell } from './VisualizerCell';
 import { CENTER_WIDTH } from '../constants/layout';
-import { Hand, HandStatusMap } from '../types';
+import { Hand, HandSelectionMap } from '../types';
 
 const Container = styled('div', {
   height: CENTER_WIDTH,
@@ -19,23 +19,23 @@ const Container = styled('div', {
 
 type Props = {
   hands: Hand[];
-  handStatusMap: HandStatusMap;
-  handleStatusChange: (hand: Hand) => void;
+  handSelectionMap: HandSelectionMap;
+  handleSelectionChange: (hand: Hand) => void;
   pseudoSelectionMap: { [key in Hand]?: boolean };
 };
 
 export const VisualizerGrid = ({
   hands,
-  handStatusMap,
-  handleStatusChange,
+  handSelectionMap,
+  handleSelectionChange,
   pseudoSelectionMap,
 }: Props) => (
   <Container>
     {hands.map((hand) => (
       <VisualizerCell
         hand={hand}
-        status={handStatusMap[hand]}
-        handleStatusChange={handleStatusChange}
+        status={handSelectionMap[hand]}
+        handleSelectionChange={handleSelectionChange}
         key={hand}
         pseudoStatus={pseudoSelectionMap[hand]}
       />

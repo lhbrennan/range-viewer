@@ -4,10 +4,10 @@ import { StatefulTooltip } from 'baseui/tooltip';
 
 import { roundToPrecision, calcNumHandCombos, totalPossibleCombos, isHand } from '../utils';
 import { STATUS } from '../constants/statuses';
-import { HandStatusMap } from '../types';
+import { HandSelectionMap } from '../types';
 
-const calcTotalNumSelectionCombos = (handStatusMap: HandStatusMap) =>
-  Object.entries(handStatusMap).reduce(
+const calcTotalNumSelectionCombos = (handSelectionMap: HandSelectionMap) =>
+  Object.entries(handSelectionMap).reduce(
     (count, entry) => {
       const [hand, status] = entry;
       // * needed for TS
@@ -24,10 +24,10 @@ const calcTotalNumSelectionCombos = (handStatusMap: HandStatusMap) =>
     [0, 0]
   );
 
-type Props = { handStatusMap: HandStatusMap };
-export const VisualizerInfobar = ({ handStatusMap }: Props) => {
+type Props = { handSelectionMap: HandSelectionMap };
+export const VisualizerInfobar = ({ handSelectionMap }: Props) => {
   const [css] = useStyletron();
-  const [yesCombos, maybeCombos] = calcTotalNumSelectionCombos(handStatusMap);
+  const [yesCombos, maybeCombos] = calcTotalNumSelectionCombos(handSelectionMap);
   const yesComboPercent = roundToPrecision((yesCombos / totalPossibleCombos) * 100, 0.01);
   const maybeComboPercent = roundToPrecision((maybeCombos / totalPossibleCombos) * 100, 0.01);
   const combinedWeightedPercent = roundToPrecision(

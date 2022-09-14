@@ -11,8 +11,8 @@ import {
   DEFAULT_HAND_STATUS_MAP,
 } from '../constants/hands';
 import { STATUS } from '../constants/statuses';
-import { createHandStatusMap } from './utils';
-import type { HandStatusMap, Hand } from '../types';
+import { createHandSelectionMap } from './utils';
+import type { HandSelectionMap, Hand } from '../types';
 
 type RangeButtonProps = ButtonProps & {
   onMouseEnter?: () => void;
@@ -33,48 +33,48 @@ const RangeButton = ({ children, ...rest }: RangeButtonProps) => {
 };
 
 type Props = {
-  setHandStatusMap: (handStatusMap: HandStatusMap) => void;
-  handStatusMap: HandStatusMap;
+  setHandSelectionMap: (handSelectionMap: HandSelectionMap) => void;
+  handSelectionMap: HandSelectionMap;
   setPseudoSelection: (hands: Hand[]) => void;
   resetPseudoSelection: () => void;
 };
 export const VisualizerToolbar = ({
-  setHandStatusMap,
-  handStatusMap,
+  setHandSelectionMap,
+  handSelectionMap,
   setPseudoSelection,
   resetPseudoSelection,
 }: Props) => {
   const [css] = useStyletron();
 
   const selectAllPairs = () => {
-    setHandStatusMap({
-      ...handStatusMap,
-      ...createHandStatusMap([...PAIRS], STATUS.yes),
+    setHandSelectionMap({
+      ...handSelectionMap,
+      ...createHandSelectionMap([...PAIRS], STATUS.yes),
     });
   };
   const selectAllBroadway = () => {
-    setHandStatusMap({
-      ...handStatusMap,
-      ...createHandStatusMap([...BROADWAY], STATUS.yes),
+    setHandSelectionMap({
+      ...handSelectionMap,
+      ...createHandSelectionMap([...BROADWAY], STATUS.yes),
     });
   };
   const selectAllSuitedConnectors = () => {
-    setHandStatusMap({
-      ...handStatusMap,
-      ...createHandStatusMap([...SUITED_CONNECTORS], STATUS.yes),
+    setHandSelectionMap({
+      ...handSelectionMap,
+      ...createHandSelectionMap([...SUITED_CONNECTORS], STATUS.yes),
     });
   };
   const selectAllSuitedAx = () => {
-    setHandStatusMap({
-      ...handStatusMap,
-      ...createHandStatusMap(HANDS.slice(0, 13), STATUS.yes),
+    setHandSelectionMap({
+      ...handSelectionMap,
+      ...createHandSelectionMap(HANDS.slice(0, 13), STATUS.yes),
     });
   };
   const selectAllHands = () => {
-    setHandStatusMap(createHandStatusMap([...HANDS], STATUS.yes));
+    setHandSelectionMap(createHandSelectionMap([...HANDS], STATUS.yes));
   };
   const resetAllHands = () => {
-    setHandStatusMap(DEFAULT_HAND_STATUS_MAP);
+    setHandSelectionMap(DEFAULT_HAND_STATUS_MAP);
   };
 
   return (
