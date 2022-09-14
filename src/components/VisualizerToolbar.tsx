@@ -14,6 +14,10 @@ import { STATUS } from '../constants/statuses';
 import { createHandSelectionMap } from './utils';
 import type { HandSelectionMap, Hand } from '../types';
 
+const handsAreAlreadySelected = (hands: Hand[], handSelectionMap: HandSelectionMap) => {
+  return hands.every((hand) => handSelectionMap[hand] === STATUS.yes);
+};
+
 type RangeButtonProps = ButtonProps & {
   onMouseEnter?: () => void;
   onMouseLeave?: () => void;
@@ -47,31 +51,46 @@ export const VisualizerToolbar = ({
   const [css] = useStyletron();
 
   const selectAllPairs = () => {
+    const newStatus = handsAreAlreadySelected([...PAIRS], handSelectionMap)
+      ? STATUS.no
+      : STATUS.yes;
     setHandSelectionMap({
       ...handSelectionMap,
-      ...createHandSelectionMap([...PAIRS], STATUS.yes),
+      ...createHandSelectionMap([...PAIRS], newStatus),
     });
   };
   const selectAllBroadway = () => {
+    const newStatus = handsAreAlreadySelected([...BROADWAY], handSelectionMap)
+      ? STATUS.no
+      : STATUS.yes;
     setHandSelectionMap({
       ...handSelectionMap,
-      ...createHandSelectionMap([...BROADWAY], STATUS.yes),
+      ...createHandSelectionMap([...BROADWAY], newStatus),
     });
   };
   const selectAllSuitedConnectors = () => {
+    const newStatus = handsAreAlreadySelected([...SUITED_CONNECTORS], handSelectionMap)
+      ? STATUS.no
+      : STATUS.yes;
     setHandSelectionMap({
       ...handSelectionMap,
-      ...createHandSelectionMap([...SUITED_CONNECTORS], STATUS.yes),
+      ...createHandSelectionMap([...SUITED_CONNECTORS], newStatus),
     });
   };
   const selectAllSuitedAx = () => {
+    const newStatus = handsAreAlreadySelected(HANDS.slice(0, 13), handSelectionMap)
+      ? STATUS.no
+      : STATUS.yes;
     setHandSelectionMap({
       ...handSelectionMap,
-      ...createHandSelectionMap(HANDS.slice(0, 13), STATUS.yes),
+      ...createHandSelectionMap(HANDS.slice(0, 13), newStatus),
     });
   };
   const selectAllHands = () => {
-    setHandSelectionMap(createHandSelectionMap([...HANDS], STATUS.yes));
+    const newStatus = handsAreAlreadySelected([...HANDS], handSelectionMap)
+      ? STATUS.no
+      : STATUS.yes;
+    setHandSelectionMap(createHandSelectionMap([...HANDS], newStatus));
   };
   const resetAllHands = () => {
     setHandSelectionMap(DEFAULT_HAND_STATUS_MAP);
