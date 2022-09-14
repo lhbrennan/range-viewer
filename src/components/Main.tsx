@@ -8,7 +8,7 @@ import { Header } from './Header';
 import { RangeSlider } from './RangeSlider';
 import { STATUS } from '../constants/statuses';
 import { LAYOUT_GRID_GUTTER, HANDS, DEFAULT_HAND_STATUS_MAP } from '../constants';
-import { createHandSelectionMap, createPsuedoSelectionMap } from './utils';
+import { createHandSelectionMap, createPsuedoSelectionMap, handsAreAlreadySelected } from './utils';
 import { isHand } from '../utils';
 import type { Status, Hand, HandSelectionMap } from '../types';
 
@@ -68,31 +68,37 @@ export const Main = () => {
   const handleSelectionChange = (hand: Hand) => {
     const currStatus = handSelectionMap[hand];
     const nextStatus = currStatus === STATUS.no ? STATUS.yes : STATUS.no;
-
     // const nextStatus =
     //   currStatus === STATUS.no
     //     ? STATUS.yes
     //     : currStatus === STATUS.maybe
     //     ? STATUS.no
     //     : STATUS.maybe;
-
     setHandSelectionMap({
       ...handSelectionMap,
       [hand]: nextStatus,
     });
   };
-  const handleSetRange = (hands: Hand[]) => {
-    setHandSelectionMap({
-      ...handSelectionMap,
-      ...createHandSelectionMap(hands, STATUS.yes),
-    });
-  };
+
   const handlePseudoSelection = (hands: Hand[]) =>
     setPseudoSelectionMap({
       ...createPsuedoSelectionMap(hands, true),
     });
+
   const handleResetPseudoSelection = () => {
     setPseudoSelectionMap({});
+  };
+
+  const handleHandSelection = (hands: Hand[]) => {
+    if (!hands.length) {
+      setHandSelectionMap(DEFAULT_HAND_STATUS_MAP);
+    } else {
+      const newStatus = handsAreAlreadySelected(hands, handSelectionMap) ? STATUS.no : STATUS.yes;
+      setHandSelectionMap({
+        ...handSelectionMap,
+        ...createHandSelectionMap(hands, newStatus),
+      });
+    }
   };
 
   return (
@@ -109,8 +115,7 @@ export const Main = () => {
           })}
         >
           <VisualizerToolbar
-            setHandSelectionMap={setHandSelectionMap}
-            handSelectionMap={handSelectionMap}
+            handleHandSelection={handleHandSelection}
             setPseudoSelection={handlePseudoSelection}
             resetPseudoSelection={handleResetPseudoSelection}
           />
@@ -123,7 +128,7 @@ export const Main = () => {
           <VisualizerInfobar handSelectionMap={handSelectionMap} />
         </div>
         <RangeSlider
-          setRange={handleSetRange}
+          handleHandSelection={handleHandSelection}
           setPseudoSelection={handlePseudoSelection}
           resetPseudoSelection={handleResetPseudoSelection}
         />

@@ -44,22 +44,23 @@ const Container = styled('div', ({ $theme }) => ({
 }));
 
 type Props = {
-  setRange: (range: Hand[]) => void;
+  handleHandSelection: (hands: Hand[]) => void;
   setPseudoSelection: (range: Hand[]) => void;
   resetPseudoSelection: () => void;
 };
-const RangeSlider = ({ setRange, setPseudoSelection, resetPseudoSelection }: Props) => {
+const RangeSlider = ({ handleHandSelection, setPseudoSelection, resetPseudoSelection }: Props) => {
   const [value, setValue] = React.useState([0, 25]);
   const selectedRange = getSelectRange({
     start: value[0],
     end: value[1],
     handRankings: [...SIX_MAX_HAND_RANKING],
   });
+
   return (
     <Container>
       <Button
         size={SIZE.compact}
-        onClick={() => setRange(selectedRange)}
+        onClick={() => handleHandSelection(selectedRange)}
         overrides={{ Root: { style: { width: BUTTON_WIDTH, marginRight: LAYOUT_GRID_GUTTER } } }}
         onMouseEnter={() => setPseudoSelection(selectedRange)}
         onMouseLeave={resetPseudoSelection}

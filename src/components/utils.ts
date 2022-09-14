@@ -1,4 +1,5 @@
 import { Status, Hand, HandSelectionMap, PseudoSelectionMap } from '../types';
+import { STATUS } from '../constants';
 // TODO: probably move this to the other utils file
 export const createHandSelectionMap = (hands: Hand[], status: Status): HandSelectionMap => {
   if (!hands) {
@@ -18,4 +19,8 @@ export const createPsuedoSelectionMap = (hands: Hand[], status: boolean): Pseudo
     map[pair] = status;
     return map;
   }, {});
+};
+
+export const handsAreAlreadySelected = (hands: Hand[], handSelectionMap: HandSelectionMap) => {
+  return hands.every((hand) => handSelectionMap[hand] === STATUS.yes);
 };
