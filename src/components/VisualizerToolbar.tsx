@@ -4,7 +4,8 @@ import { useStyletron } from 'baseui';
 
 import { BUTTON_WIDTH } from '../constants/layout';
 import { HANDS, PAIRS, BROADWAY, SUITED_CONNECTORS } from '../constants/hands';
-import type { Hand } from '../types';
+import { createPseudoSelectionMap } from './/utils';
+import type { Hand, PseudoSelectionMap } from '../types';
 
 type RangeButtonProps = ButtonProps & {
   onMouseEnter?: () => void;
@@ -26,14 +27,9 @@ const RangeButton = ({ children, ...rest }: RangeButtonProps) => {
 
 type Props = {
   handleHandSelection: (hands: Hand[]) => void;
-  setPseudoSelection: (hands: Hand[]) => void;
-  resetPseudoSelection: () => void;
+  setPseudoSelectionMap: (m: PseudoSelectionMap) => void;
 };
-export const VisualizerToolbar = ({
-  handleHandSelection,
-  setPseudoSelection,
-  resetPseudoSelection,
-}: Props) => {
+export const VisualizerToolbar = ({ handleHandSelection, setPseudoSelectionMap }: Props) => {
   const [css] = useStyletron();
 
   const selectAllPairs = () => {
@@ -53,6 +49,15 @@ export const VisualizerToolbar = ({
   };
   const resetAllHands = () => {
     handleHandSelection([]);
+  };
+
+  const setPseudoSelection = (hands: Hand[]) =>
+    setPseudoSelectionMap({
+      ...createPseudoSelectionMap(hands, true),
+    });
+
+  const resetPseudoSelection = () => {
+    setPseudoSelectionMap({});
   };
 
   return (

@@ -8,11 +8,10 @@ import { Header } from './Header';
 import { RangeSlider } from './RangeSlider';
 import { STATUS } from '../constants/statuses';
 import { LAYOUT_GRID_GUTTER, HANDS, DEFAULT_HAND_STATUS_MAP } from '../constants';
-import { createHandSelectionMap, createPsuedoSelectionMap, handsAreAlreadySelected } from './utils';
+import { createHandSelectionMap, handsAreAlreadySelected } from './utils';
 import { isHand } from '../utils';
 import type { Status, Hand, HandSelectionMap } from '../types';
 
-/****** UTILS *****/
 const setQueryStringWithoutPageReload = (queryString: string) => {
   const { protocol, host, pathname } = window.location;
   const newUrl = `${protocol}//${host}${pathname}?${queryString}`;
@@ -22,7 +21,6 @@ const setQueryStringWithoutPageReload = (queryString: string) => {
 const getQueryStringValue = (status: Status, searchParams: URLSearchParams) =>
   searchParams.getAll(status);
 
-/***** COMPONENT *****/
 export const Main = () => {
   const [css] = useStyletron();
 
@@ -79,15 +77,6 @@ export const Main = () => {
     });
   };
 
-  const handlePseudoSelection = (hands: Hand[]) =>
-    setPseudoSelectionMap({
-      ...createPsuedoSelectionMap(hands, true),
-    });
-
-  const handleResetPseudoSelection = () => {
-    setPseudoSelectionMap({});
-  };
-
   const handleHandSelection = (hands: Hand[]) => {
     if (!hands.length) {
       setHandSelectionMap(DEFAULT_HAND_STATUS_MAP);
@@ -115,8 +104,7 @@ export const Main = () => {
         >
           <VisualizerToolbar
             handleHandSelection={handleHandSelection}
-            setPseudoSelection={handlePseudoSelection}
-            resetPseudoSelection={handleResetPseudoSelection}
+            setPseudoSelectionMap={setPseudoSelectionMap}
           />
           <VisualizerGrid
             hands={[...HANDS]}
@@ -128,8 +116,7 @@ export const Main = () => {
         </div>
         <RangeSlider
           handleHandSelection={handleHandSelection}
-          setPseudoSelection={handlePseudoSelection}
-          resetPseudoSelection={handleResetPseudoSelection}
+          setPseudoSelectionMap={setPseudoSelectionMap}
         />
       </div>
     </main>

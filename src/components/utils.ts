@@ -11,7 +11,7 @@ export const createHandSelectionMap = (hands: Hand[], status: Status): HandSelec
   }, {});
 };
 
-export const createPsuedoSelectionMap = (hands: Hand[], status: boolean): PseudoSelectionMap => {
+export const createPseudoSelectionMap = (hands: Hand[], status: boolean): PseudoSelectionMap => {
   if (!hands) {
     return {};
   }

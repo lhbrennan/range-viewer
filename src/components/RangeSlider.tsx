@@ -4,8 +4,9 @@ import { Button, SIZE } from 'baseui/button';
 import { styled } from 'baseui';
 
 import { calcNumHandCombos, totalPossibleCombos } from '../utils';
+import { createPseudoSelectionMap } from './utils';
 import { BUTTON_WIDTH, CENTER_WIDTH, LAYOUT_GRID_GUTTER, SIX_MAX_HAND_RANKING } from '../constants';
-import type { Hand } from '../types';
+import type { Hand, PseudoSelectionMap } from '../types';
 
 type Args = {
   start: number;
@@ -45,10 +46,9 @@ const Container = styled('div', ({ $theme }) => ({
 
 type Props = {
   handleHandSelection: (hands: Hand[]) => void;
-  setPseudoSelection: (range: Hand[]) => void;
-  resetPseudoSelection: () => void;
+  setPseudoSelectionMap: (m: PseudoSelectionMap) => void;
 };
-const RangeSlider = ({ handleHandSelection, setPseudoSelection, resetPseudoSelection }: Props) => {
+const RangeSlider = ({ handleHandSelection, setPseudoSelectionMap }: Props) => {
   const [value, setValue] = React.useState([0, 25]);
   const selectedRange = getSelectRange({
     start: value[0],
@@ -56,13 +56,22 @@ const RangeSlider = ({ handleHandSelection, setPseudoSelection, resetPseudoSelec
     handRankings: [...SIX_MAX_HAND_RANKING],
   });
 
+  const setPseudoSelection = () =>
+    setPseudoSelectionMap({
+      ...createPseudoSelectionMap(selectedRange, true),
+    });
+
+  const resetPseudoSelection = () => {
+    setPseudoSelectionMap({});
+  };
+
   return (
     <Container>
       <Button
         size={SIZE.compact}
         onClick={() => handleHandSelection(selectedRange)}
         overrides={{ Root: { style: { width: BUTTON_WIDTH, marginRight: LAYOUT_GRID_GUTTER } } }}
-        onMouseEnter={() => setPseudoSelection(selectedRange)}
+        onMouseEnter={setPseudoSelection}
         onMouseLeave={resetPseudoSelection}
       >
         Add Selected Range
@@ -72,7 +81,7 @@ const RangeSlider = ({ handleHandSelection, setPseudoSelection, resetPseudoSelec
         onChange={({ value }) => {
           if (value) {
             setValue(value);
-            setPseudoSelection(selectedRange);
+            setPseudoSelection();
           }
         }}
         step={0.5}
@@ -87,7 +96,7 @@ const RangeSlider = ({ handleHandSelection, setPseudoSelection, resetPseudoSelec
           },
           Track: {
             props: {
-              onMouseEnter: () => setPseudoSelection(selectedRange),
+              onMouseEnter: setPseudoSelection,
               onMouseLeave: resetPseudoSelection,
             },
           },
