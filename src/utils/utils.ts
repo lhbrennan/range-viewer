@@ -127,32 +127,8 @@ function includes<T extends U, U>(coll: ReadonlyArray<T>, el: U): el is T {
 //   return maybeCombo.length === 2 && isCard(maybeCombo[0]) && isCard(maybeCombo[1]);
 // };
 
-// TODO(luke.brennan): this is gross, refactor it
 export const isHand = (str: string): str is Hand => {
   return includes(HANDS, str);
-  // if (str.length < 2 || str.length > 3) {
-  //   return false;
-  // }
-
-  // const firstChar = str.charAt(0);
-  // const secondChar = str.charAt(1);
-
-  // const firstCharRank = CARD_RANKS.indexOf(firstChar);
-  // const secondCharRank = CARD_RANKS.indexOf(secondChar);
-
-  // if (firstCharRank < 0 || secondCharRank < 0 || secondCharRank < firstCharRank) {
-  //   return false;
-  // }
-
-  // if (str.length === 3 && firstChar === secondChar) {
-  //   return false;
-  // }
-
-  // if (str.charAt(2) && !['o', 's'].includes(str.charAt(2))) {
-  //   return false;
-  // }
-
-  // return true;
 };
 
 export const handCombosAreSimilar = (combo1: string, combo2: string) => {
@@ -244,11 +220,10 @@ export const unpackRangeItem = (rangeItem: string) => {
 //   }, []);
 // };
 
-// TODO: update this terminology.
 /*
 TERMINOLOGY
-'hand' = 'AhQs' = two specific cards
-'handCombo' = 'AQs' = all combinations of two specific cards
+'combo' = 'AhQs' = two specific cards
+'hand' = 'AQs' = all combinations of two specific cards
 'subRange' = 'KJs+' or '44-77' = a range of hand combinations
 'rangeItem' = a superset containing all of: subRange, handComb, hand
 'range' = [ATs, AQo, JJ+, 67o, 8c9c] = an array of subRange's

@@ -1,9 +1,10 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import App from './App';
+import { PAGE_TITLE } from './constants';
 
-test('renders learn react link', () => {
+test('renders page title', () => {
   render(<App />);
-  const linkElement = screen.getByText(/learn react/i);
-  expect(linkElement).toBeInTheDocument();
+  const header = screen.getByText(PAGE_TITLE);
+  expect(header).toBeInTheDocument();
 });

@@ -1,5 +1,6 @@
 import React from 'react';
 import { useStyletron } from 'baseui';
+import { PAGE_TITLE } from '../constants';
 
 const Header = () => {
   const [css, theme] = useStyletron();
@@ -17,7 +18,7 @@ const Header = () => {
         color: theme.colors.mono100,
       })}
     >
-      Poker Hand Range Visualizer
+      {PAGE_TITLE}
     </section>
   );
 };

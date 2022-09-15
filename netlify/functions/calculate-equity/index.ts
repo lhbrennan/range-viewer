@@ -1,7 +1,6 @@
 import { Handler } from '@netlify/functions';
-import { CARDS as cards } from '../../../src/constants';
-const Hand = require('pokersolver').Hand;
-// const cards = require('../../../src/constants').CARDS;
+import { CARDS } from '../../../src/constants';
+const HandApi = require('pokersolver').Hand;
 
 function calcEquityByMonteCarloSimulation(
   hand, // AhJc
@@ -23,7 +22,7 @@ function calcEquityByMonteCarloSimulation(
 function generateRandomBoard(initialBoard, deadCards) {
   const finalBoard = [...initialBoard];
 
-  const availableCards = [...cards].filter(
+  const availableCards = [...CARDS].filter(
     (card) => ![...initialBoard, ...deadCards].includes(card)
   );
 
@@ -53,9 +52,9 @@ function calcEquityOnCompleteBoard(hand, range, board) {
 }
 
 function determineIfHeroWins(heroHand, villianHand) {
-  const solvedHeroHand = Hand.solve(heroHand);
-  const solvedVillianHand = Hand.solve(villianHand);
-  const winner = Hand.winners([solvedHeroHand, solvedVillianHand]);
+  const solvedHeroHand = HandApi.solve(heroHand);
+  const solvedVillianHand = HandApi.solve(villianHand);
+  const winner = HandApi.winners([solvedHeroHand, solvedVillianHand]);
   if (winner.length > 1) {
     return 'tie';
   }

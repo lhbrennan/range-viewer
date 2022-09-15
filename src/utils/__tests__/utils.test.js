@@ -28,7 +28,7 @@ describe('isExactHand', () => {
 describe('isHand', () => {
   test('it works', () => {
     expect(isHand('AKs')).toBe(true);
-    expect(isHand('AKo')).toBe(true);
+    expect(isHand('AKo')).toBe(false);
     expect(isHand('AK')).toBe(true);
     expect(isHand('AA')).toBe(true);
     expect(isHand('AhKc')).toBe(false);

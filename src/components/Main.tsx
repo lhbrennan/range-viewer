@@ -1,17 +1,16 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { useStyletron } from 'baseui';
 
+import { Header } from './Header';
 import { VisualizerGrid } from './VisualizerGrid';
 import { VisualizerToolbar } from './VisualizerToolbar';
 import { VisualizerInfobar } from './VisualizerInfobar';
-import { Header } from './Header';
 import { RangeSlider } from './RangeSlider';
-import { STATUS } from '../constants/statuses';
-import { LAYOUT_GRID_GUTTER, HANDS, DEFAULT_HAND_STATUS_MAP } from '../constants';
+import { CruncherSection } from './CruncherSection';
+import { STATUS, LAYOUT_GRID_GUTTER, HANDS, DEFAULT_HAND_STATUS_MAP } from '../constants';
 import { createHandSelectionMap, handsAreAlreadySelected } from './utils';
 import { isHand } from '../utils';
 import type { Status, Hand, HandSelectionMap } from '../types';
-import { CruncherSection } from './CruncherSection';
 
 const setQueryStringWithoutPageReload = (queryString: string) => {
   const { protocol, host, pathname } = window.location;
