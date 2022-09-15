@@ -12,7 +12,7 @@ const CruncherSection = (props) => {
 
   const handleCrunchEquity = async () => {
     try {
-      const response = await fetch('/.netlify/functions/calcEquity', {
+      const response = await fetch('/.netlify/functions/calculate-equity', {
         method: 'POST',
         body: JSON.stringify({
           heroHand,

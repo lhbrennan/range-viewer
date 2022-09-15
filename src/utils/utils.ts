@@ -1,6 +1,7 @@
 import { HAND_TYPE, HANDS, SUITS, CARD_RANKS, CARDS } from '../constants';
 import { Hand, HandType, Card, Rank, Combo } from '../types';
 
+// TODO: scream case this
 export const totalPossibleCombos = 1326;
 
 export const roundToPrecision = (num: number, precision: number) => {

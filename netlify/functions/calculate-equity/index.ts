@@ -1,6 +1,7 @@
-// import { Handler } from '@netlify/functions';
+import { Handler } from '@netlify/functions';
+import { CARDS as cards } from '../../../src/constants';
 const Hand = require('pokersolver').Hand;
-const cards = require('../../../src/constants').CARDS;
+// const cards = require('../../../src/constants').CARDS;
 
 function calcEquityByMonteCarloSimulation(
   hand, // AhJc
@@ -40,10 +41,7 @@ function calcEquityOnCompleteBoard(hand, range, board) {
   let ties = 0;
 
   range.forEach((villianHand) => {
-    const outcome = determineIfHeroWins(
-      [...hand, ...board],
-      [...villianHand, ...board]
-    );
+    const outcome = determineIfHeroWins([...hand, ...board], [...villianHand, ...board]);
     if (outcome === 'win') {
       wins++;
     } else if (outcome === 'tie') {
@@ -77,8 +75,8 @@ function pickRandomArrayElement(array) {
 
 //----- For Netlify Serverless ----
 
-// available from '/.netlify/functions/calcEquity'
-function handler(event, context, callback) {
+// available from '/.netlify/functions/calculate-equity'
+const handler: Handler = async (event, context, callback) => {
   // const { heroHand, villianRange, board, numTrials } = event.body;
   // const equity = calcEquityByMonteCarloSimulation(
   //   heroHand,
@@ -87,8 +85,8 @@ function handler(event, context, callback) {
   //   numTrials
   // );
   // callback(null, { statusCode: 200, body: `"${equity}"` });
-  callback(null, { statusCode: 200, body: 'Hello World' });
-}
+  return { statusCode: 200, body: 'Hello World' };
+};
 
 module.exports = {
   calcEquityByMonteCarloSimulation,
