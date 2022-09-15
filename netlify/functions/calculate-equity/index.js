@@ -1,6 +1,6 @@
 // import { Handler } from '@netlify/functions';
 const Hand = require('pokersolver').Hand;
-const cards = require('../constants/cards').cards;
+const cards = require('../../../src/constants').CARDS;
 
 function calcEquityByMonteCarloSimulation(
   hand, // AhJc
