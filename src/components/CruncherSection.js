@@ -5,9 +5,9 @@ import { useStyletron } from 'baseui';
 
 import { CENTER_WIDTH } from '../constants';
 
-const CruncherSection = (props) => {
-  const [villianRange, setVillianRange] = useState('JTs, AQo, TT');
-  const [heroHand, setHeroHand] = useState(['As', 'Ad']);
+const CruncherSection = ({ range }) => {
+  const [villianRange, setVillianRange] = useState(range);
+  const [heroHand, setHeroHand] = useState(['Th, Td']);
   const [board, setBoard] = useState(['5c', '6h', '7h']);
 
   const handleCrunchEquity = async () => {
@@ -24,7 +24,7 @@ const CruncherSection = (props) => {
 
       console.log(response.body);
     } catch (e) {
-      //error
+      console.error(e);
     }
   };
 
@@ -33,21 +33,21 @@ const CruncherSection = (props) => {
   return (
     <section className={css({ maxWidth: CENTER_WIDTH, margin: '0 auto' })}>
       <div className={css({ display: 'flex' })}>
-      <div>
-        <div>{"Villian's Range"}</div>
-        <Input value={villianRange} onChange={(e) => setVillianRange(e.target.value)} />
-      </div>
+        <div>
+          <div>{"Villian's Range"}</div>
+          <Input value={villianRange} onChange={(e) => setVillianRange(e.target.value)} />
+        </div>
 
-      <div>
-        <div>{"Hero's Hand"}</div>
-        <Input value={heroHand} onChange={(e) => setHeroHand(e.target.value)} />
-      </div>
+        <div>
+          <div>{"Hero's Hand"}</div>
+          <Input value={heroHand} onChange={(e) => setHeroHand(e.target.value)} />
+        </div>
 
-      <div>
-        <div>{'Board'}</div>
-        <Input value={board} onChange={(e) => setBoard(e.target.value)} />
+        <div>
+          <div>{'Board'}</div>
+          <Input value={board} onChange={(e) => setBoard(e.target.value)} />
+        </div>
       </div>
-</div>
       <Button onClick={handleCrunchEquity}>Crunch Equity</Button>
     </section>
   );

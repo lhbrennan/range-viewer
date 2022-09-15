@@ -77,15 +77,9 @@ function pickRandomArrayElement(array) {
 
 // available from '/.netlify/functions/calculate-equity'
 const handler: Handler = async (event, context, callback) => {
-  // const { heroHand, villianRange, board, numTrials } = event.body;
-  // const equity = calcEquityByMonteCarloSimulation(
-  //   heroHand,
-  //   villianRange,
-  //   board,
-  //   numTrials
-  // );
-  // callback(null, { statusCode: 200, body: `"${equity}"` });
-  return { statusCode: 200, body: 'Hello World' };
+  const { heroHand, villianRange, board, numTrials } = JSON.parse(event.body || '');
+  const equity = calcEquityByMonteCarloSimulation(heroHand, villianRange, board, numTrials);
+  return { statusCode: 200, body: `"Equity: ${equity}"` };
 };
 
 module.exports = {

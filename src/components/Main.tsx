@@ -120,16 +120,7 @@ export const Main = () => {
           setPseudoSelectionMap={setPseudoSelectionMap}
         />
       </div>
-      {/* <button
-        onClick={async () => {
-          fetch('/.netlify/functions/calculate-equity')
-            .then((response) => response.json())
-            .then((data) => console.log(data));
-        }}
-      >
-        Calculate Equity!
-      </button> */}
-      <CruncherSection />
+      <CruncherSection range={yesHands} />
     </main>
   );
 };
