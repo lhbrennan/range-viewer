@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import { Input } from 'baseui/input';
 import { Button } from 'baseui/button';
+import { useStyletron } from 'baseui';
+
+import { CENTER_WIDTH } from '../constants';
 
 const CruncherSection = (props) => {
   const [villianRange, setVillianRange] = useState('JTs, AQo, TT');
@@ -25,8 +28,11 @@ const CruncherSection = (props) => {
     }
   };
 
+  const [css] = useStyletron();
+
   return (
-    <section>
+    <section className={css({ maxWidth: CENTER_WIDTH, margin: '0 auto' })}>
+      <div className={css({ display: 'flex' })}>
       <div>
         <div>{"Villian's Range"}</div>
         <Input value={villianRange} onChange={(e) => setVillianRange(e.target.value)} />
@@ -41,7 +47,7 @@ const CruncherSection = (props) => {
         <div>{'Board'}</div>
         <Input value={board} onChange={(e) => setBoard(e.target.value)} />
       </div>
-
+</div>
       <Button onClick={handleCrunchEquity}>Crunch Equity</Button>
     </section>
   );

@@ -11,6 +11,7 @@ import { LAYOUT_GRID_GUTTER, HANDS, DEFAULT_HAND_STATUS_MAP } from '../constants
 import { createHandSelectionMap, handsAreAlreadySelected } from './utils';
 import { isHand } from '../utils';
 import type { Status, Hand, HandSelectionMap } from '../types';
+import { CruncherSection } from './CruncherSection';
 
 const setQueryStringWithoutPageReload = (queryString: string) => {
   const { protocol, host, pathname } = window.location;
@@ -119,7 +120,7 @@ export const Main = () => {
           setPseudoSelectionMap={setPseudoSelectionMap}
         />
       </div>
-      <button
+      {/* <button
         onClick={async () => {
           fetch('/.netlify/functions/calculate-equity')
             .then((response) => response.json())
@@ -127,7 +128,8 @@ export const Main = () => {
         }}
       >
         Calculate Equity!
-      </button>
+      </button> */}
+      <CruncherSection />
     </main>
   );
 };
