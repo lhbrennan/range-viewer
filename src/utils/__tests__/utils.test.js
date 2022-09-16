@@ -1,4 +1,4 @@
-import { isCard, isExactHand, isHand, handCombosAreSimilar } from '../utils';
+import { isCard, isHand, handCombosAreSimilar } from '../utils';
 
 describe('isCard', () => {
   test('it works', () => {
@@ -12,18 +12,18 @@ describe('isCard', () => {
   });
 });
 
-describe('isExactHand', () => {
-  test('it works', () => {
-    expect(isExactHand('AhKc')).toBe(true);
-    expect(isExactHand('Ts9d')).toBe(true);
-    expect(isExactHand('4c4h')).toBe(true);
-    expect(isExactHand('Td9d')).toBe(true);
-    expect(isExactHand('Tds')).toBe(false);
-    expect(isExactHand('TTc')).toBe(false);
-    expect(isExactHand('Ax5')).toBe(false);
-    expect(isExactHand('JsJs')).toBe(false);
-  });
-});
+// describe('isExactHand', () => {
+//   test('it works', () => {
+//     expect(isExactHand('AhKc')).toBe(true);
+//     expect(isExactHand('Ts9d')).toBe(true);
+//     expect(isExactHand('4c4h')).toBe(true);
+//     expect(isExactHand('Td9d')).toBe(true);
+//     expect(isExactHand('Tds')).toBe(false);
+//     expect(isExactHand('TTc')).toBe(false);
+//     expect(isExactHand('Ax5')).toBe(false);
+//     expect(isExactHand('JsJs')).toBe(false);
+//   });
+// });
 
 describe('isHand', () => {
   test('it works', () => {
