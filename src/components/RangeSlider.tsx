@@ -3,9 +3,15 @@ import { Slider } from 'baseui/slider';
 import { Button, SIZE } from 'baseui/button';
 import { styled } from 'baseui';
 
-import { calcNumHandCombos, totalPossibleCombos } from '../utils';
+import { calcNumHandCombos } from '../utils';
 import { createPseudoSelectionMap } from './utils';
-import { BUTTON_WIDTH, CENTER_WIDTH, LAYOUT_GRID_GUTTER, SIX_MAX_HAND_RANKING } from '../constants';
+import {
+  BUTTON_WIDTH,
+  CENTER_WIDTH,
+  LAYOUT_GRID_GUTTER,
+  SIX_MAX_HAND_RANKING,
+  TOTAL_POSSIBLE_COMBOS,
+} from '../constants';
 import type { Hand, PseudoSelectionMap } from '../types';
 
 type Args = {
@@ -20,7 +26,7 @@ const getSelectRange = ({ start, end, handRankings }: Args) => {
   for (let i = 0; i < handRankings.length; i++) {
     const hand = handRankings[i];
     numCombos += calcNumHandCombos(hand);
-    if ((numCombos / totalPossibleCombos) * 100 > start) {
+    if ((numCombos / TOTAL_POSSIBLE_COMBOS) * 100 > start) {
       startIdx = i;
       break;
     }
@@ -28,7 +34,7 @@ const getSelectRange = ({ start, end, handRankings }: Args) => {
   for (let i = startIdx; i < handRankings.length; i++) {
     const hand = handRankings[i];
     numCombos += calcNumHandCombos(hand);
-    if ((numCombos / totalPossibleCombos) * 100 > end) {
+    if ((numCombos / TOTAL_POSSIBLE_COMBOS) * 100 > end) {
       endIdx = i;
       break;
     }

@@ -2,8 +2,8 @@ import React from 'react';
 import { useStyletron } from 'baseui';
 import { StatefulTooltip } from 'baseui/tooltip';
 
-import { roundToPrecision, calcNumHandCombos, totalPossibleCombos, isHand } from '../utils';
-import { STATUS } from '../constants/statuses';
+import { roundToPrecision, calcNumHandCombos, isHand } from '../utils';
+import { STATUS, TOTAL_POSSIBLE_COMBOS } from '../constants';
 import { HandSelectionMap } from '../types';
 
 const calcTotalNumSelectionCombos = (handSelectionMap: HandSelectionMap) =>
@@ -28,10 +28,10 @@ type Props = { handSelectionMap: HandSelectionMap };
 export const VisualizerInfobar = ({ handSelectionMap }: Props) => {
   const [css] = useStyletron();
   const [yesCombos, maybeCombos] = calcTotalNumSelectionCombos(handSelectionMap);
-  const yesComboPercent = roundToPrecision((yesCombos / totalPossibleCombos) * 100, 0.01);
-  const maybeComboPercent = roundToPrecision((maybeCombos / totalPossibleCombos) * 100, 0.01);
+  const yesComboPercent = roundToPrecision((yesCombos / TOTAL_POSSIBLE_COMBOS) * 100, 0.01);
+  const maybeComboPercent = roundToPrecision((maybeCombos / TOTAL_POSSIBLE_COMBOS) * 100, 0.01);
   const combinedWeightedPercent = roundToPrecision(
-    ((yesCombos + 0.5 * maybeCombos) / totalPossibleCombos) * 100,
+    ((yesCombos + 0.5 * maybeCombos) / TOTAL_POSSIBLE_COMBOS) * 100,
     0.01
   );
 
@@ -40,8 +40,8 @@ export const VisualizerInfobar = ({ handSelectionMap }: Props) => {
       <StatefulTooltip
         content={() => (
           <>
-            <div>{`'Yes' combos: ${yesCombos}/${totalPossibleCombos} (${yesComboPercent}%)`}</div>
-            <div>{`'Maybe' combos: ${maybeCombos}/${totalPossibleCombos} (${maybeComboPercent}%)`}</div>
+            <div>{`'Yes' combos: ${yesCombos}/${TOTAL_POSSIBLE_COMBOS} (${yesComboPercent}%)`}</div>
+            <div>{`'Maybe' combos: ${maybeCombos}/${TOTAL_POSSIBLE_COMBOS} (${maybeComboPercent}%)`}</div>
           </>
         )}
       >

@@ -1,5 +1,7 @@
 import { STATUS } from './statuses';
 
+export const TOTAL_POSSIBLE_COMBOS = 1326;
+
 export const HAND_TYPE = {
   pair: 'pair',
   suited: 'suited',
