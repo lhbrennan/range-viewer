@@ -56,3 +56,11 @@ export const getAllCombosFromHand = (hand: Hand): Combo[] => {
     return getAllUnsuitedCombos(hand);
   }
 };
+
+export const getAllCombosFromHands = (hands: Hand[]): Combo[] => {
+  let combos: Combo[] = [];
+  hands.forEach((hand) => {
+    combos = [...combos, ...getAllCombosFromHand(hand)];
+  });
+  return combos;
+};

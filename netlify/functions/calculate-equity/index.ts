@@ -1,25 +1,26 @@
 import { Handler } from '@netlify/functions';
 import { CARDS } from '../../../src/constants';
+import { getAllCombosFromHands } from '../../../src/utils';
+import type { Combo, Hand, Card } from '../../../src/types';
 const HandApi = require('pokersolver').Hand;
 
 function calcEquityByMonteCarloSimulation(
-  hand, // AhJc
-  range, // [[As,9h], [Kc, Ks]...]
-  board, // [2d, 9d, 4s],
-  numTrials // 5000
+  heroCombo: Combo, // old: AhJc --> new: ['Ah', 'Jc']
+  villianHandRange: Hand[], // old: [[As,9h], [Kc, Ks]...] --> new: [A9, KK, ...]
+  board: Card[],
+  numTrials: number
 ) {
   let wins = 0;
-
+  const villianComboRange = getAllCombosFromHands(villianHandRange);
   for (let i = 0; i < numTrials; i++) {
-    const completeBoard = generateRandomBoard(board, hand);
-    const equity = calcEquityOnCompleteBoard(hand, range, completeBoard);
+    const completeBoard = generateRandomBoard(board, heroCombo);
+    const equity = calcEquityOnCompleteBoard(heroCombo, villianComboRange, completeBoard);
     wins += equity;
   }
-
   return wins / numTrials;
 }
 
-function generateRandomBoard(initialBoard, deadCards) {
+function generateRandomBoard(initialBoard: Card[], deadCards: Card[]) {
   const finalBoard = [...initialBoard];
 
   const availableCards = [...CARDS].filter(
@@ -27,7 +28,7 @@ function generateRandomBoard(initialBoard, deadCards) {
   );
 
   for (let i = initialBoard.length; i < 5; i++) {
-    const selectedCardIdx = pickRandomArrayElement(availableCards);
+    const selectedCardIdx = pickRandomArrayElementIdx(availableCards.length);
     const selectedCard = availableCards.splice(selectedCardIdx, 1)[0];
     finalBoard.push(selectedCard);
   }
@@ -35,12 +36,16 @@ function generateRandomBoard(initialBoard, deadCards) {
   return finalBoard;
 }
 
-function calcEquityOnCompleteBoard(hand, range, board) {
+function calcEquityOnCompleteBoard(
+  heroHand: Combo,
+  villianComboRange: Combo[],
+  board: Card[]
+): number {
   let wins = 0;
   let ties = 0;
 
-  range.forEach((villianHand) => {
-    const outcome = determineIfHeroWins([...hand, ...board], [...villianHand, ...board]);
+  villianComboRange.forEach((villianHand) => {
+    const outcome = determineIfHeroWins([...heroHand, ...board], [...villianHand, ...board]);
     if (outcome === 'win') {
       wins++;
     } else if (outcome === 'tie') {
@@ -48,7 +53,7 @@ function calcEquityOnCompleteBoard(hand, range, board) {
     }
   });
 
-  return wins / (range.length - ties);
+  return (wins + 0.5 * ties) / villianComboRange.length;
 }
 
 function determineIfHeroWins(heroHand, villianHand) {
@@ -68,11 +73,9 @@ function determineIfHeroWins(heroHand, villianHand) {
   }
 }
 
-function pickRandomArrayElement(array) {
-  return array[Math.floor(Math.random() * array.length)];
+function pickRandomArrayElementIdx(arrayLength: number): number {
+  return Math.floor(Math.random() * arrayLength);
 }
-
-//----- For Netlify Serverless ----
 
 // available from '/.netlify/functions/calculate-equity'
 const handler: Handler = async (event, context, callback) => {
@@ -86,6 +89,6 @@ module.exports = {
   generateRandomBoard,
   calcEquityOnCompleteBoard,
   determineIfHeroWins,
-  pickRandomArrayElement,
+  pickRandomArrayElementIdx,
   handler,
 };
