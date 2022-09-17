@@ -18,7 +18,7 @@ const CruncherSection = ({ range }) => {
           heroHand: heroHand[0].split(',').map(card => card.trim()),
           villianRange: range,
           board,
-          numTrials: 100,
+          numTrials: 5000,
         }),
       });
 
