@@ -11,9 +11,15 @@ function calcEquityByMonteCarloSimulation(
   numTrials: number
 ) {
   let wins = 0;
-  const villianComboRange = getAllCombosFromHands(villianHandRange);
+  const unfilteredVillianComboRange = getAllCombosFromHands(villianHandRange);
+
   for (let i = 0; i < numTrials; i++) {
     const completeBoard = generateRandomBoard(board, heroCombo);
+    const excludedCards = [...completeBoard, ...heroCombo];
+    const villianComboRange = unfilteredVillianComboRange.filter((combo) => {
+      const [firstCard, secondCard] = combo;
+      return !excludedCards.includes(firstCard) && !excludedCards.includes(secondCard);
+    });
     const equity = calcEquityOnCompleteBoard(heroCombo, villianComboRange, completeBoard);
     wins += equity;
   }
