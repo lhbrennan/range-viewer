@@ -9,6 +9,7 @@ const CruncherSection = ({ range }) => {
   // const [villianRange, setVillianRange] = useState(range);
   const [heroHand, setHeroHand] = useState(['Th, Td']);
   const [board, setBoard] = useState(['5c', '6h', '7h']);
+  const [numTrials, setNumTrials] = useState(250);
 
   const handleCrunchEquity = async () => {
     try {
@@ -18,7 +19,7 @@ const CruncherSection = ({ range }) => {
           heroHand: heroHand[0].split(',').map(card => card.trim()),
           villianRange: range,
           board,
-          numTrials: 5000,
+          numTrials,
         }),
       });
 
@@ -46,6 +47,11 @@ const CruncherSection = ({ range }) => {
         <div>
           <div>{'Board'}</div>
           <Input value={board} onChange={(e) => setBoard(e.target.value)} />
+        </div>
+
+        <div>
+          <div>{'Number of Trials'}</div>
+          <Input value={numTrials} onChange={(e) => setNumTrials(e.target.value)} />
         </div>
       </div>
       <Button onClick={handleCrunchEquity}>Crunch Equity</Button>
