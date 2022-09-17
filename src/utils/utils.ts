@@ -28,9 +28,6 @@ export const determineHandType = (hand: Hand): HandType => {
   return HAND_TYPE.unsuited;
 };
 
-// * not in use
-// export const hasDuplicates = (array: any[]) => new Set(array).size !== array.length;
-
 export const isCard = (str: string): str is Card => {
   return includes(CARDS, str);
 };

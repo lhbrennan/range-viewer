@@ -1,4 +1,4 @@
-import { isCard, isHand, handCombosAreSimilar } from '../utils';
+import { isCard, isHand } from '../utils';
 
 describe('isCard', () => {
   test('it works', () => {
@@ -42,14 +42,14 @@ describe('isHand', () => {
   });
 });
 
-describe('handCombosAreSimilar', () => {
-  test('it works', () => {
-    expect(handCombosAreSimilar('AKs', 'A9s')).toBe(true);
-    expect(handCombosAreSimilar('33', '77')).toBe(true);
-    expect(handCombosAreSimilar('T6', 'T9')).toBe(true);
-    expect(handCombosAreSimilar('T6', 'J9')).toBe(false);
-    expect(handCombosAreSimilar('T6', 'T9s')).toBe(false);
-    expect(handCombosAreSimilar('44', '77s')).toBe(false);
-    expect(handCombosAreSimilar('5Js', '5Ks')).toBe(false);
-  });
-});
+// describe('handCombosAreSimilar', () => {
+//   test('it works', () => {
+//     expect(handCombosAreSimilar('AKs', 'A9s')).toBe(true);
+//     expect(handCombosAreSimilar('33', '77')).toBe(true);
+//     expect(handCombosAreSimilar('T6', 'T9')).toBe(true);
+//     expect(handCombosAreSimilar('T6', 'J9')).toBe(false);
+//     expect(handCombosAreSimilar('T6', 'T9s')).toBe(false);
+//     expect(handCombosAreSimilar('44', '77s')).toBe(false);
+//     expect(handCombosAreSimilar('5Js', '5Ks')).toBe(false);
+//   });
+// });

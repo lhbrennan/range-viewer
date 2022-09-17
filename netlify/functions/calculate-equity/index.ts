@@ -56,7 +56,7 @@ function calcEquityOnCompleteBoard(
   return (wins + 0.5 * ties) / villianComboRange.length;
 }
 
-function determineIfHeroWins(heroHand, villianHand) {
+function determineIfHeroWins(heroHand: Card[], villianHand: Card[]) {
   const solvedHeroHand = HandApi.solve(heroHand);
   const solvedVillianHand = HandApi.solve(villianHand);
   const winner = HandApi.winners([solvedHeroHand, solvedVillianHand]);
