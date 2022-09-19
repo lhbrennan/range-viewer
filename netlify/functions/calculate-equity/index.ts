@@ -12,25 +12,22 @@ import type {
 const HandApi = require('pokersolver').Hand;
 
 function calcEquityByMonteCarloSimulation(
-  heroCombo: Combo, // old: AhJc --> new: ['Ah', 'Jc']
-  villianHandRange: Hand[], // old: [[As,9h], [Kc, Ks]...] --> new: [A9, KK, ...]
+  heroCombo: Combo,
+  villianHandRange: Hand[],
   board: Card[],
   numTrials: number
 ) {
-  let wins = 0;
+  let equityNumerator = 0;
   const unfilteredVillianComboRange = getAllCombosFromHands(villianHandRange);
 
   for (let i = 0; i < numTrials; i++) {
     const completeBoard = generateRandomBoard(board, heroCombo);
     const excludedCards = [...completeBoard, ...heroCombo];
-    const villianComboRange = filterCombosWithExcludedCards(
-      unfilteredVillianComboRange,
-      excludedCards
-    );
-    const equity = calcEquityOnCompleteBoard(heroCombo, villianComboRange, completeBoard);
-    wins += equity;
+    const villianCombos = filterCombosWithExcludedCards(unfilteredVillianComboRange, excludedCards);
+    const equity = calcEquityOnCompleteBoard(heroCombo, villianCombos, completeBoard);
+    equityNumerator += equity;
   }
-  return wins / numTrials;
+  return equityNumerator / numTrials;
 }
 
 function generateRandomBoard(initialBoard: Card[], deadCards: Card[]): CompleteBoard {
@@ -72,7 +69,10 @@ function calcEquityOnCompleteBoard(
   return (wins + 0.5 * ties) / villianCombos.length;
 }
 
-function determineIfHeroWins(heroSevenCards: SevenCardHand, villianSevenCards: SevenCardHand): ShowdownOutcome {
+function determineIfHeroWins(
+  heroSevenCards: SevenCardHand,
+  villianSevenCards: SevenCardHand
+): ShowdownOutcome {
   const solvedHeroHand = HandApi.solve(heroSevenCards);
   const solvedVillianHand = HandApi.solve(villianSevenCards);
   const winner = HandApi.winners([solvedHeroHand, solvedVillianHand]);
@@ -96,7 +96,7 @@ function pickRandomArrayElementIdx(arrayLength: number): number {
 // available from '/.netlify/functions/calculate-equity'
 const handler: Handler = async (event, context, callback) => {
   const { heroHand, villianRange, board, numTrials } = JSON.parse(event.body || '');
-  const equity = calcEquityByMonteCarloSimulation(heroHand, villianRange, board, numTrials);
+  const equity = calcEquityByMonteCarloSimulation(heroHand, villianRange, board, Number(numTrials));
   return { statusCode: 200, body: `"Equity: ${equity}"` };
 };
 
