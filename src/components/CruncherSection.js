@@ -7,8 +7,8 @@ import { CENTER_WIDTH } from '../constants';
 
 const CruncherSection = ({ range }) => {
   // const [villianRange, setVillianRange] = useState(range);
-  const [heroHand, setHeroHand] = useState(['Th, Td']);
-  const [board, setBoard] = useState(['5c', '6h', '7h']);
+  const [heroHand, setHeroHand] = useState(['Th,Td']);
+  const [board, setBoard] = useState(['5c,6h,7h']);
   const [numTrials, setNumTrials] = useState(250);
 
   const handleCrunchEquity = async () => {
@@ -18,7 +18,7 @@ const CruncherSection = ({ range }) => {
         body: JSON.stringify({
           heroHand: heroHand[0].split(',').map(card => card.trim()),
           villianRange: range,
-          board,
+          board: board[0].split(',').map(card => card.trim()),
           numTrials,
         }),
       });
