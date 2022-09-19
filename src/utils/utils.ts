@@ -1,5 +1,5 @@
 import { HAND_TYPE, HANDS, CARDS } from '../constants';
-import { Hand, HandType, Card } from '../types';
+import { Hand, HandType, Card, Combo } from '../types';
 
 export const roundToPrecision = (num: number, precision: number) => {
   const adjuster = 1 / precision;
@@ -61,6 +61,13 @@ export function includes<T extends U, U>(coll: ReadonlyArray<T>, el: U): el is T
 export const isHand = (str: string): str is Hand => {
   return includes(HANDS, str);
 };
+
+export const filterCombosWithExcludedCards = (combos: Combo[], excludedCards: Card[]) => {
+  return combos.filter((combo) => {
+    const [firstCard, secondCard] = combo;
+    return !excludedCards.includes(firstCard) && !excludedCards.includes(secondCard);
+  });
+}
 
 // * all of this is not in use but may be in the future
 // export const handCombosAreSimilar = (combo1: string, combo2: string) => {

@@ -1,6 +1,6 @@
 import { Handler } from '@netlify/functions';
 import { CARDS } from '../../../src/constants';
-import { getAllCombosFromHands } from '../../../src/utils';
+import { getAllCombosFromHands, filterCombosWithExcludedCards } from '../../../src/utils';
 import type { Combo, Hand, Card } from '../../../src/types';
 const HandApi = require('pokersolver').Hand;
 
@@ -16,10 +16,10 @@ function calcEquityByMonteCarloSimulation(
   for (let i = 0; i < numTrials; i++) {
     const completeBoard = generateRandomBoard(board, heroCombo);
     const excludedCards = [...completeBoard, ...heroCombo];
-    const villianComboRange = unfilteredVillianComboRange.filter((combo) => {
-      const [firstCard, secondCard] = combo;
-      return !excludedCards.includes(firstCard) && !excludedCards.includes(secondCard);
-    });
+    const villianComboRange = filterCombosWithExcludedCards(
+      unfilteredVillianComboRange,
+      excludedCards
+    );
     const equity = calcEquityOnCompleteBoard(heroCombo, villianComboRange, completeBoard);
     wins += equity;
   }
