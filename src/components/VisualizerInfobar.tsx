@@ -29,7 +29,7 @@ export const VisualizerInfobar = ({ handSelectionMap }: Props) => {
   const [css] = useStyletron();
   const [yesCombos, maybeCombos] = calcTotalNumSelectionCombos(handSelectionMap);
   const yesComboPercent = roundToPrecision((yesCombos / TOTAL_POSSIBLE_COMBOS) * 100, 0.01);
-  const maybeComboPercent = roundToPrecision((maybeCombos / TOTAL_POSSIBLE_COMBOS) * 100, 0.01);
+  // const maybeComboPercent = roundToPrecision((maybeCombos / TOTAL_POSSIBLE_COMBOS) * 100, 0.01);
   const combinedWeightedPercent = roundToPrecision(
     ((yesCombos + 0.5 * maybeCombos) / TOTAL_POSSIBLE_COMBOS) * 100,
     0.01
@@ -41,7 +41,7 @@ export const VisualizerInfobar = ({ handSelectionMap }: Props) => {
         content={() => (
           <>
             <div>{`'Yes' combos: ${yesCombos}/${TOTAL_POSSIBLE_COMBOS} (${yesComboPercent}%)`}</div>
-            <div>{`'Maybe' combos: ${maybeCombos}/${TOTAL_POSSIBLE_COMBOS} (${maybeComboPercent}%)`}</div>
+            {/* <div>{`'Maybe' combos: ${maybeCombos}/${TOTAL_POSSIBLE_COMBOS} (${maybeComboPercent}%)`}</div> */}
           </>
         )}
       >
