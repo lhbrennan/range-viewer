@@ -2,9 +2,9 @@ import {
   generateRandomBoard,
   calcEquityOnCompleteBoard,
   determineIfHeroWins,
-  calcEquityByMonteCarloSimulation,
+  // calcEquityByMonteCarloSimulation,
 } from '../../netlify/functions/calculate-equity';
-import { roundToPrecision, getAllPairCombos } from '../utils';
+import { roundToPrecision, getAllCombosFromHands, filterCombosWithExcludedCards } from '../utils';
 import { hasDuplicates } from './utils';
 
 describe('generateRandomBoard', () => {
@@ -30,24 +30,42 @@ describe('generateRandomBoard', () => {
 });
 
 describe('calcEquityOnCompleteBoard', () => {
-  const hand1 = ['Ah', 'Ac'];
-  const range1 = [
-    ['As', 'Ad'],
-    ['Ks', 'Kc'],
-    ['Ks', 'Kd'],
-    ['Kc', 'Kd'],
-    ['Qs', 'Qc'],
-    ['Qs', 'Qd'],
-    ['Qs', 'Qh'],
-    ['Qc', 'Qd'],
-    ['Qc', 'Qh'],
-    ['Qd', 'Qh'],
-  ];
-  const board1 = ['Kh', '7s', '9h', 'Jh', 'Js'];
+  test('calculates equities correctly when villian has a range 1', () => {
+    const heroCombo = ['Ah', 'Ac'];
+    const villianCombos = [
+      ['As', 'Ad'],
+      ['Ks', 'Kc'],
+      ['Ks', 'Kd'],
+      ['Kc', 'Kd'],
+      ['Qs', 'Qc'],
+      ['Qs', 'Qd'],
+      ['Qs', 'Qh'],
+      ['Qc', 'Qd'],
+      ['Qc', 'Qh'],
+      ['Qd', 'Qh'],
+    ];
+    const board = ['Kh', '7s', '9h', 'Jh', 'Js'];
+    const equity = calcEquityOnCompleteBoard(heroCombo, villianCombos, board);
+    expect(roundToPrecision(equity, 0.01)).toBe(0.65);
+  });
 
-  test('calculates equities correctly', () => {
-    const equity = calcEquityOnCompleteBoard(hand1, range1, board1);
-    expect(roundToPrecision(equity, 0.01)).toEqual(0.65);
+  test('calculates equities correctly when villian has a range 2', () => {
+    const heroCombo = ['Ah', 'Ac'];
+    const board = ['Ks', '9s', '9h', 'Jh', '3s'];
+    const villianCombos = filterCombosWithExcludedCards(
+      getAllCombosFromHands(['JTs', 'T9s', '98s', '44', '33']),
+      [...heroCombo, ...board]
+    );
+    const equity = calcEquityOnCompleteBoard(heroCombo, villianCombos, board);
+    expect(equity).toBe(0.5);
+  });
+
+  test('calculates equities correctly when villian has specific hole cards', () => {
+    const heroCombo = ['Ad', 'Ah'];
+    const villianCombos = [['Ks', 'Kd']];
+    const board = ['Js', '7h', '6h', '8d', '5c'];
+    const equity = calcEquityOnCompleteBoard(heroCombo, villianCombos, board);
+    expect(equity).toBe(1);
   });
 });
 

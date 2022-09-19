@@ -1,7 +1,14 @@
 import { Handler } from '@netlify/functions';
 import { CARDS } from '../../../src/constants';
 import { getAllCombosFromHands, filterCombosWithExcludedCards } from '../../../src/utils';
-import type { Combo, Hand, Card } from '../../../src/types';
+import type {
+  Combo,
+  Hand,
+  Card,
+  SevenCardHand,
+  ShowdownOutcome,
+  CompleteBoard,
+} from '../../../src/types';
 const HandApi = require('pokersolver').Hand;
 
 function calcEquityByMonteCarloSimulation(
@@ -26,32 +33,35 @@ function calcEquityByMonteCarloSimulation(
   return wins / numTrials;
 }
 
-function generateRandomBoard(initialBoard: Card[], deadCards: Card[]) {
-  const finalBoard = [...initialBoard];
+function generateRandomBoard(initialBoard: Card[], deadCards: Card[]): CompleteBoard {
+  const completeBoard = [...initialBoard];
 
   const availableCards = [...CARDS].filter(
     (card) => ![...initialBoard, ...deadCards].includes(card)
   );
 
-  for (let i = initialBoard.length; i < 5; i++) {
+  while (completeBoard.length < 5) {
     const selectedCardIdx = pickRandomArrayElementIdx(availableCards.length);
     const selectedCard = availableCards.splice(selectedCardIdx, 1)[0];
-    finalBoard.push(selectedCard);
+    completeBoard.push(selectedCard);
   }
-
-  return finalBoard;
+  // @ts-ignore
+  return completeBoard;
 }
 
 function calcEquityOnCompleteBoard(
-  heroHand: Combo,
-  villianComboRange: Combo[],
-  board: Card[]
+  heroCombo: Combo,
+  villianCombos: Combo[],
+  board: [Card, Card, Card, Card, Card]
 ): number {
   let wins = 0;
   let ties = 0;
 
-  villianComboRange.forEach((villianHand) => {
-    const outcome = determineIfHeroWins([...heroHand, ...board], [...villianHand, ...board]);
+  villianCombos.forEach((villianCombo) => {
+    const outcome: ShowdownOutcome = determineIfHeroWins(
+      [...heroCombo, ...board],
+      [...villianCombo, ...board]
+    );
     if (outcome === 'win') {
       wins++;
     } else if (outcome === 'tie') {
@@ -59,12 +69,12 @@ function calcEquityOnCompleteBoard(
     }
   });
 
-  return (wins + 0.5 * ties) / villianComboRange.length;
+  return (wins + 0.5 * ties) / villianCombos.length;
 }
 
-function determineIfHeroWins(heroHand: Card[], villianHand: Card[]) {
-  const solvedHeroHand = HandApi.solve(heroHand);
-  const solvedVillianHand = HandApi.solve(villianHand);
+function determineIfHeroWins(heroSevenCards: SevenCardHand, villianSevenCards: SevenCardHand): ShowdownOutcome {
+  const solvedHeroHand = HandApi.solve(heroSevenCards);
+  const solvedVillianHand = HandApi.solve(villianSevenCards);
   const winner = HandApi.winners([solvedHeroHand, solvedVillianHand]);
   if (winner.length > 1) {
     return 'tie';

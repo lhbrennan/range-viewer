@@ -9,3 +9,6 @@ export type Card = typeof CARDS[number];
 export type ExactHand = `${Card}${Card}`;
 export type Rank = typeof CARD_RANKS[number];
 export type Combo = [Card, Card];
+export type SevenCardHand = [Card, Card, Card, Card, Card, Card, Card];
+export type CompleteBoard = [Card, Card, Card, Card, Card];
+export type ShowdownOutcome = 'win' | 'tie' | 'lose' | null;
