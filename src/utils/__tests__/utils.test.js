@@ -1,4 +1,4 @@
-import { isCard, isHand } from '../utils';
+import { isCard, isHand, filterCombosWithExcludedCards, getAllCombosFromHands } from '..';
 
 describe('isCard', () => {
   test('it works', () => {
@@ -53,3 +53,35 @@ describe('isHand', () => {
 //     expect(handCombosAreSimilar('5Js', '5Ks')).toBe(false);
 //   });
 // });
+
+describe('filterCombosWithExcludedCards', () => {
+  test('returns the right number of combos', () => {
+    const heroCombos = [
+      ['Th', 'Td'],
+      ['Ah', '7c'],
+      ['Ks', 'Ts'],
+    ];
+    const boards = [
+      ['5c', '6h', '7h', 'Kc'],
+      ['Td', '6h', '7h'],
+    ];
+
+    const villianCombos1 = filterCombosWithExcludedCards(
+      getAllCombosFromHands(['K8s', 'Q8', 'JJ', '97s', '85s']),
+      [...heroCombos[0], ...boards[0]]
+    );
+    expect(villianCombos1.length).toBe(27);
+
+    const villianCombos2 = filterCombosWithExcludedCards(
+      getAllCombosFromHands(['K8s', 'Q8', 'JJ', '97s', '85s']),
+      [...heroCombos[1], ...boards[1]]
+    );
+    expect(villianCombos2.length).toBe(29);
+
+    const villianCombos3 = filterCombosWithExcludedCards(
+      getAllCombosFromHands(['KTs', 'K8s', 'T7s', 'T6s']),
+      [...heroCombos[2], ...boards[1]]
+    );
+    expect(villianCombos3.length).toBe(11);
+  });
+});
