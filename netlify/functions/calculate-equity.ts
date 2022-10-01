@@ -1,6 +1,6 @@
 import { Handler } from '@netlify/functions';
-import { CARDS } from '../../../src/constants';
-import { getAllCombosFromHands, filterCombosWithExcludedCards } from '../../../src/utils';
+import { CARDS } from '../../src/constants';
+import { getAllCombosFromHands, filterCombosWithExcludedCards } from '../../src/utils';
 import type {
   Combo,
   Hand,
@@ -8,7 +8,7 @@ import type {
   SevenCardHand,
   ShowdownOutcome,
   CompleteBoard,
-} from '../../../src/types';
+} from '../../src/types';
 const HandApi = require('pokersolver').Hand;
 
 function calcEquityByMonteCarloSimulation(
@@ -97,7 +97,7 @@ function pickRandomArrayElementIdx(arrayLength: number): number {
 const handler: Handler = async (event, context, callback) => {
   const { heroHand, villianRange, board, numTrials } = JSON.parse(event.body || '');
   const equity = calcEquityByMonteCarloSimulation(heroHand, villianRange, board, Number(numTrials));
-  return { statusCode: 200, body: `"Equity: ${equity}"` };
+  return { statusCode: 200, body: JSON.stringify({ equity }) };
 };
 
 module.exports = {

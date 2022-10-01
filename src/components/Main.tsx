@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react';
+import { Accordion, Panel } from 'baseui/accordion';
 import { useStyletron } from 'baseui';
 
 import { Header } from './Header';
@@ -7,7 +8,13 @@ import { VisualizerToolbar } from './VisualizerToolbar';
 import { VisualizerInfobar } from './VisualizerInfobar';
 import { RangeSlider } from './RangeSlider';
 import { CruncherSection } from './CruncherSection';
-import { STATUS, LAYOUT_GRID_GUTTER, HANDS, DEFAULT_HAND_STATUS_MAP } from '../constants';
+import {
+  STATUS,
+  LAYOUT_GRID_GUTTER,
+  HANDS,
+  DEFAULT_HAND_STATUS_MAP,
+  CENTER_WIDTH,
+} from '../constants';
 import { createHandSelectionMap, handsAreAlreadySelected } from './utils';
 import { isHand } from '../utils';
 import type { Status, Hand, HandSelectionMap } from '../types';
@@ -119,7 +126,16 @@ export const Main = () => {
           setPseudoSelectionMap={setPseudoSelectionMap}
         />
       </div>
-      <CruncherSection range={yesHands} />
+      <Accordion
+        overrides={{
+          Root: { style: { maxWidth: CENTER_WIDTH, margin: '0 auto' } },
+          Header: { style: { justifyContent: 'center' } },
+          Content: {style: {padding: '10px 0 40px 0'}}
+        }}
+        accordion
+      >
+        <Panel title="Equity Calculator">{<CruncherSection range={yesHands} />}</Panel>
+      </Accordion>
     </main>
   );
 };
