@@ -38,7 +38,7 @@ const CruncherSection = ({ range }: Props) => {
   const [heroHand, setHeroHand] = useState('Th,Td');
   const [board, setBoard] = useState('5c,6h,7h');
   const [numTrials, setNumTrials] = useState(300);
-  const [equity, setEquity] = useState<number | null>(null);
+  const [equity, setEquity] = useState<number | null>(0.25);
 
   const handleCrunchEquity = async () => {
     try {
@@ -88,20 +88,26 @@ const CruncherSection = ({ range }: Props) => {
         </StyledInputContainer>
 
         <Button
-          overrides={{ BaseButton: { style: { alignSelf: 'end', maxHeight: '44px' } } }}
+          overrides={{
+            BaseButton: {
+              style: { alignSelf: 'end', maxHeight: '44px', marginBottom: theme.sizing.scale800 },
+            },
+          }}
           onClick={handleCrunchEquity}
         >
           Calculate Hero's Equity
         </Button>
 
         {equity && (
-          <div>
-            <div>Hero's Equity</div>
-            {equity && (
-              <div>
-                <span>{roundToPrecision(equity * 100, 0.01)}%</span>
-              </div>
-            )}
+          <div
+            className={css({
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              ...theme.typography.MonoDisplayXSmall,
+            })}
+          >
+            <span>{roundToPrecision(equity * 100, 0.01)}%</span>
           </div>
         )}
       </div>

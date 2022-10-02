@@ -57,7 +57,7 @@ export const VisualizerInfobar = ({ handSelectionMap, yesHands }: Props) => {
               paddingRight: 0,
             },
           },
-          Content: { style: { padding: '10px 0 40px 0' } },
+          Content: { style: { padding: '10px 0 0 0' } },
         }}
         accordion
       >
