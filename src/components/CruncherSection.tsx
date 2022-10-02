@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Input } from 'baseui/input';
 import { Button } from 'baseui/button';
 import { StatefulTooltip } from 'baseui/tooltip';
+import { Spinner } from 'baseui/spinner';
 import { useStyletron, styled } from 'baseui';
 
 import { roundToPrecision } from '../utils';
@@ -38,9 +39,10 @@ const CruncherSection = ({ range }: Props) => {
   const [heroHand, setHeroHand] = useState('Th,Td');
   const [board, setBoard] = useState('5c,6h,7h');
   const [numTrials, setNumTrials] = useState(300);
-  const [equity, setEquity] = useState<number | null>(0.25);
+  const [equity, setEquity] = useState<number | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
 
-  const handleCrunchEquity = async () => {
+  const fetchHeroEquity = async () => {
     try {
       const response = await fetch('/.netlify/functions/calculate-equity', {
         method: 'POST',
@@ -54,14 +56,21 @@ const CruncherSection = ({ range }: Props) => {
 
       const { equity } = await response.json();
       if (response.ok) {
-        console.log('equity', equity);
         if (typeof equity === 'number') {
           setEquity(equity);
         }
+        setIsLoading(false);
       }
     } catch (error) {
+      setIsLoading(false);
       console.error(error);
     }
+  };
+
+  const handleOnClick = () => {
+    setIsLoading(true);
+    setEquity(null);
+    fetchHeroEquity();
   };
 
   const [css, theme] = useStyletron();
@@ -93,10 +102,16 @@ const CruncherSection = ({ range }: Props) => {
               style: { alignSelf: 'end', maxHeight: '44px', marginBottom: theme.sizing.scale800 },
             },
           }}
-          onClick={handleCrunchEquity}
+          onClick={handleOnClick}
         >
           Calculate Hero's Equity
         </Button>
+
+        {isLoading && (
+          <div className={css({ height: '44px', display: 'flex', justifyContent: 'center' })}>
+            <Spinner />
+          </div>
+        )}
 
         {equity && (
           <div
