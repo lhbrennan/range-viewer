@@ -2,11 +2,18 @@ import React, { useState } from 'react';
 import { Input } from 'baseui/input';
 import { Button } from 'baseui/button';
 import { StatefulTooltip } from 'baseui/tooltip';
-import { useStyletron } from 'baseui';
+import { useStyletron, styled } from 'baseui';
 
 import { roundToPrecision } from '../utils';
 import { ReactComponent as Info } from './info-icon.svg';
 import type { Hand } from '../types';
+
+const StyledInputContainer = styled('div', ({ $theme }) => ({
+  marginBottom: $theme.sizing.scale800,
+}));
+const StyledInputHeader = styled('div', ({ $theme }) => ({
+  ...$theme.typography.LabelMedium,
+}));
 
 const Tooltip = () => {
   const [css, theme] = useStyletron();
@@ -61,48 +68,42 @@ const CruncherSection = ({ range }: Props) => {
 
   return (
     <div>
-      <div
-        className={css({
-          display: 'grid',
-          gridTemplateColumns: '1fr 1fr 1fr',
-          gridTemplateRows: '1fr 1fr',
-          columnGap: theme.sizing.scale1000,
-          rowGap: theme.sizing.scale700,
-        })}
-      >
-        <div className={css({ gridColumnStart: 1, gridColumnEnd: 3 })}>
-          <div>Board</div>
+      <div>
+        <StyledInputContainer>
+          <StyledInputHeader>Board</StyledInputHeader>
           <Input value={board} onChange={(e) => setBoard(e.target.value)} />
-        </div>
+        </StyledInputContainer>
 
-        <div>
-          <div>Hero's Equity</div>
-          {equity && (
-            <div>
-              <span>{roundToPrecision(equity * 100, 0.01)}%</span>
-            </div>
-          )}
-        </div>
-
-        <div>
-          <div>Hero's Hand</div>
+        <StyledInputContainer>
+          <StyledInputHeader>Hero's Hand</StyledInputHeader>
           <Input value={heroHand} onChange={(e) => setHeroHand(e.target.value)} />
-        </div>
+        </StyledInputContainer>
 
-        <div>
-          <div>
+        <StyledInputContainer>
+          <StyledInputHeader>
             <span className={css({ marginRight: theme.sizing.scale200 })}>Number of Trials</span>
             <Tooltip />
-          </div>
+          </StyledInputHeader>
           <Input value={numTrials} onChange={(e) => setNumTrials(Number(e.target.value))} />
-        </div>
+        </StyledInputContainer>
 
         <Button
           overrides={{ BaseButton: { style: { alignSelf: 'end', maxHeight: '44px' } } }}
           onClick={handleCrunchEquity}
         >
-          Crunch Equity
+          Calculate Hero's Equity
         </Button>
+
+        {equity && (
+          <div>
+            <div>Hero's Equity</div>
+            {equity && (
+              <div>
+                <span>{roundToPrecision(equity * 100, 0.01)}%</span>
+              </div>
+            )}
+          </div>
+        )}
       </div>
     </div>
   );

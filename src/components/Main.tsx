@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { Accordion, Panel } from 'baseui/accordion';
 import { useStyletron } from 'baseui';
 
 import { Header } from './Header';
@@ -7,14 +6,7 @@ import { VisualizerGrid } from './VisualizerGrid';
 import { VisualizerToolbar } from './VisualizerToolbar';
 import { VisualizerInfobar } from './VisualizerInfobar';
 import { RangeSlider } from './RangeSlider';
-import { CruncherSection } from './CruncherSection';
-import {
-  STATUS,
-  LAYOUT_GRID_GUTTER,
-  HANDS,
-  DEFAULT_HAND_STATUS_MAP,
-  CENTER_WIDTH,
-} from '../constants';
+import { STATUS, LAYOUT_GRID_GUTTER, HANDS, DEFAULT_HAND_STATUS_MAP } from '../constants';
 import { createHandSelectionMap, handsAreAlreadySelected } from './utils';
 import { isHand } from '../utils';
 import type { Status, Hand, HandSelectionMap } from '../types';
@@ -35,6 +27,7 @@ export const Main = () => {
     return new URLSearchParams(window.location.search);
   }, []);
 
+  // TODO: rename this
   // @ts-ignore
   const yesHands: Hand[] = getQueryStringValue('yes', searchParams).filter((maybeHand) =>
     isHand(maybeHand)
@@ -119,23 +112,15 @@ export const Main = () => {
             handleSingleHandSelection={handleSingleHandSelection}
             pseudoSelectionMap={pseudoSelectionMap}
           />
-          <VisualizerInfobar handSelectionMap={handSelectionMap} />
+          <div className={css({ justifySelf: 'start', height: '100%' })}>
+            <VisualizerInfobar handSelectionMap={handSelectionMap} yesHands={yesHands} />
+          </div>
         </div>
         <RangeSlider
           handleHandSelection={handleHandSelection}
           setPseudoSelectionMap={setPseudoSelectionMap}
         />
       </div>
-      <Accordion
-        overrides={{
-          Root: { style: { maxWidth: CENTER_WIDTH, margin: '0 auto' } },
-          Header: { style: { justifyContent: 'center' } },
-          Content: {style: {padding: '10px 0 40px 0'}}
-        }}
-        accordion
-      >
-        <Panel title="Equity Calculator">{<CruncherSection range={yesHands} />}</Panel>
-      </Accordion>
     </main>
   );
 };

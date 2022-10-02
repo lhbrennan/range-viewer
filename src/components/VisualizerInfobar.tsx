@@ -1,10 +1,12 @@
 import React from 'react';
+import { Accordion, Panel } from 'baseui/accordion';
+import { CruncherSection } from './CruncherSection';
 import { useStyletron } from 'baseui';
 import { StatefulTooltip } from 'baseui/tooltip';
 
 import { roundToPrecision, calcNumHandCombos, isHand } from '../utils';
 import { STATUS, TOTAL_POSSIBLE_COMBOS } from '../constants';
-import { HandSelectionMap } from '../types';
+import { HandSelectionMap, Hand } from '../types';
 
 const calcTotalNumSelectionCombos = (handSelectionMap: HandSelectionMap) =>
   Object.entries(handSelectionMap).reduce(
@@ -24,8 +26,8 @@ const calcTotalNumSelectionCombos = (handSelectionMap: HandSelectionMap) =>
     [0, 0]
   );
 
-type Props = { handSelectionMap: HandSelectionMap };
-export const VisualizerInfobar = ({ handSelectionMap }: Props) => {
+type Props = { handSelectionMap: HandSelectionMap; yesHands: Hand[] };
+export const VisualizerInfobar = ({ handSelectionMap, yesHands }: Props) => {
   const [css] = useStyletron();
   const [yesCombos, maybeCombos] = calcTotalNumSelectionCombos(handSelectionMap);
   const yesComboPercent = roundToPrecision((yesCombos / TOTAL_POSSIBLE_COMBOS) * 100, 0.01);
@@ -36,20 +38,47 @@ export const VisualizerInfobar = ({ handSelectionMap }: Props) => {
   );
 
   return (
-    <div className={css({ alignItems: 'flex-start', justifySelf: 'start' })}>
-      <StatefulTooltip
-        content={() => (
-          <>
-            <div>{`'Yes' combos: ${yesCombos}/${TOTAL_POSSIBLE_COMBOS} (${yesComboPercent}%)`}</div>
-            {/* <div>{`'Maybe' combos: ${maybeCombos}/${TOTAL_POSSIBLE_COMBOS} (${maybeComboPercent}%)`}</div> */}
-          </>
-        )}
+    <div
+      className={css({
+        height: '100%',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'space-between',
+      })}
+    >
+      <Accordion
+        overrides={{
+          Header: {
+            style: {
+              justifyContent: 'flex-start',
+              paddingTop: '10px',
+              paddingBottom: '10px',
+              paddingLeft: 0,
+              paddingRight: 0,
+            },
+          },
+          Content: { style: { padding: '10px 0 40px 0' } },
+        }}
+        accordion
       >
-        <div>
-          <div>Selected Range</div>
-          <div className={css({ textAlign: 'center' })}>{`${combinedWeightedPercent}%`}</div>
-        </div>
-      </StatefulTooltip>
+        <Panel title="Equity Calculator">{<CruncherSection range={yesHands} />}</Panel>
+      </Accordion>
+
+      <div className={css({ width: 'fit-content' })}>
+        <StatefulTooltip
+          content={() => (
+            <>
+              <div>{`Selected Combos: ${yesCombos}/${TOTAL_POSSIBLE_COMBOS} (${yesComboPercent}%)`}</div>
+              {/* <div>{`'Maybe' combos: ${maybeCombos}/${TOTAL_POSSIBLE_COMBOS} (${maybeComboPercent}%)`}</div> */}
+            </>
+          )}
+        >
+          <div>
+            <div>Selected Range</div>
+            <div className={css({ textAlign: 'center' })}>{`${combinedWeightedPercent}%`}</div>
+          </div>
+        </StatefulTooltip>
+      </div>
     </div>
   );
 };
