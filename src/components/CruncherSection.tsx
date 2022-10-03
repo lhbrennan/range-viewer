@@ -41,29 +41,29 @@ const CruncherSection = ({ range }: Props) => {
   const [numTrials, setNumTrials] = useState(300);
   const [equity, setEquity] = useState<number | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [errorMsg, setErrorMsg] = useState(null);
 
   const fetchHeroEquity = async () => {
-    try {
-      const response = await fetch('/.netlify/functions/calculate-equity', {
-        method: 'POST',
-        body: JSON.stringify({
-          heroHand: heroHand.split(',').map((card) => card.trim()),
-          villianRange: range,
-          board: board.split(',').map((card) => card.trim()),
-          numTrials,
-        }),
-      });
+    const response = await fetch('/.netlify/functions/calculate-equity', {
+      method: 'POST',
+      body: JSON.stringify({
+        heroHand: heroHand.split(',').map((card) => card.trim()),
+        villianRange: range,
+        board: board.split(',').map((card) => card.trim()),
+        numTrials,
+      }),
+    });
 
-      const { equity } = await response.json();
-      if (response.ok) {
-        if (typeof equity === 'number') {
-          setEquity(equity);
-        }
-        setIsLoading(false);
+    const { equity, errorMessage } = await response.json();
+    if (response.ok) {
+      if (typeof equity === 'number') {
+        setEquity(equity);
       }
-    } catch (error) {
       setIsLoading(false);
-      console.error(error);
+    } else {
+      setIsLoading(false);
+      console.error(errorMessage);
+      setErrorMsg(errorMessage);
     }
   };
 
@@ -110,6 +110,12 @@ const CruncherSection = ({ range }: Props) => {
         {isLoading && (
           <div className={css({ height: '44px', display: 'flex', justifyContent: 'center' })}>
             <Spinner />
+          </div>
+        )}
+
+        {errorMsg && (
+          <div className={css({ height: '44px', display: 'flex', justifyContent: 'center' })}>
+            Error
           </div>
         )}
 
